@@ -1,0 +1,30 @@
+.registraion-part h2 {
+  font-family: "Nunito", sans-serif;
+  font-size: 35px;
+  font-weight: 700;
+  color: #11175d;
+  margin: 0;
+  margin-top: 225px;
+}
+.registraion-part p {
+  font-family: "Nunito", sans-serif;
+  font-size: 21px;
+  font-weight: 400;
+  color: #11175d;
+  margin: 0;
+}
+
+.registraion-part .css-mhc70k-MuiGrid-root > .MuiGrid-item {
+  padding: 0 !important;
+}
+
+.registraion-part .box {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 70px;
+}
+
+.registraion-part .MuiFormHelperText-root {
+  color: #ff0000;
+  font-size: 14px;
+}
