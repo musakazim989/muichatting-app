@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Grid, TextField, Button } from "@mui/material"
-import { click } from "@testing-library/user-event/dist/click"
+import { Link } from "react-router-dom"
 
 const Registration = () => {
   const [name, setName] = useState("")
@@ -12,6 +12,7 @@ const Registration = () => {
   const [passwordError, setPasswordError] = useState("")
   const [confirmPasswordError, setConfirmPasswordError] = useState("")
   const [passErrdigits, setpassErrdigits] = useState("")
+  const [passmatcherr, setPassmatcherr] = useState("")
 
   let handleSubmit = () => {
     if (!name) {
@@ -22,12 +23,17 @@ const Registration = () => {
     } else if (!password) {
       setPasswordError("Please enter password")
       setEmailError("")
-    } else if (!password.length < 8) {
+    } else if (password.length < 8) {
       setpassErrdigits("Password should be 8 characters")
       setPasswordError("")
     } else if (!confirmPassword) {
       setConfirmPasswordError("Please enter confirm password")
       setpassErrdigits("")
+    } else if (password !== confirmPassword) {
+      setPassmatcherr("Password dosen't match.")
+      setConfirmPasswordError("")
+    } else {
+      setPassmatcherr("")
     }
   }
 
@@ -74,7 +80,13 @@ const Registration = () => {
               <br />
               <TextField
                 style={{ width: "355px", marginTop: "20px" }}
-                helperText={confirmPasswordError}
+                helperText={
+                  confirmPasswordError
+                    ? confirmPasswordError
+                    : passmatcherr
+                    ? passmatcherr
+                    : ""
+                }
                 id="demo-helper-text-misaligned"
                 label="Confirm Password"
                 type="password"
@@ -88,6 +100,12 @@ const Registration = () => {
               >
                 Sign Up
               </Button>
+              <br />
+              <p style={{ marginTop: "15px" }}>
+                Have an account?
+                <Link to="/login"> Log In </Link>
+                here.
+              </p>
             </div>
           </div>
         </Grid>
