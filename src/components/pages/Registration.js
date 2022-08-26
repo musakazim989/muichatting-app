@@ -1,6 +1,11 @@
 import React, { useState } from "react"
-import { Grid, TextField, Button } from "@mui/material"
-import { Link } from "react-router-dom"
+import { Grid, TextField, Button, Alert } from "@mui/material"
+import { Link, useNavigate } from "react-router-dom"
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth"
 
 const Registration = () => {
   const [name, setName] = useState("")
@@ -13,6 +18,10 @@ const Registration = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState("")
   const [passErrdigits, setpassErrdigits] = useState("")
   const [passmatcherr, setPassmatcherr] = useState("")
+  const [emailErrMsg, setEmailErrMsg] = useState("")
+
+  const auth = getAuth()
+  let navigate = useNavigate()
 
   let handleSubmit = () => {
     if (!name) {
@@ -34,6 +43,19 @@ const Registration = () => {
       setConfirmPasswordError("")
     } else {
       setPassmatcherr("")
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((user) => {
+          sendEmailVerification(auth.currentUser).then(() => {
+            console.log("Email Send")
+            navigate("/login")
+          })
+        })
+        .catch((error) => {
+          const errorCode = error.code
+          if (errorCode.includes("email")) {
+            setEmailErrMsg("Email already used, please use another email.")
+          }
+        })
     }
   }
 
@@ -45,6 +67,16 @@ const Registration = () => {
             <div className="left">
               <h2>Get Started with registration.</h2>
               <p>Join free!</p>
+              {emailErrMsg ? (
+                <Alert
+                  severity="error"
+                  style={{ width: "355px", marginTop: "20px" }}
+                >
+                  {emailErrMsg}
+                </Alert>
+              ) : (
+                ""
+              )}
               <TextField
                 style={{ width: "355px", marginTop: "30px" }}
                 helperText={nameerror}
@@ -94,18 +126,16 @@ const Registration = () => {
               />
               <br />
               <Button
-                style={{ width: "355px", marginTop: "20px" }}
+                style={{ width: "355px", marginTop: "30px" }}
                 variant="contained"
                 onClick={handleSubmit}
               >
                 Sign Up
               </Button>
               <br />
-              <p style={{ marginTop: "15px" }}>
-                Have an account?
-                <Link to="/login"> Log In </Link>
-                here.
-              </p>
+              <span className="form-bottom-text" style={{ marginTop: "15px" }}>
+                Have an account? <Link to="/login"> Log In </Link> here.
+              </span>
             </div>
           </div>
         </Grid>
