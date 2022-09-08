@@ -84,6 +84,7 @@ a {
   font-size: 14px;
   font-weight: 400;
   position: relative;
+  cursor: pointer;
 }
 
 .registraion-part .option .option-icon {

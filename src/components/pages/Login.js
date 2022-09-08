@@ -8,9 +8,12 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  signInWithPopup,
+  GoogleAuthProvider,
 } from "firebase/auth"
 
 const Login = () => {
+  const auth = getAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [emailerror, setEmailError] = useState("")
@@ -23,7 +26,7 @@ const Login = () => {
   const [emailErrMsg, setEmailErrMsg] = useState("")
   const [passwordErrMsg, setPasswordErrMsg] = useState("")
 
-  const auth = getAuth()
+  const provider = new GoogleAuthProvider()
   let navigate = useNavigate()
 
   let handleCheckPass = () => {
@@ -48,8 +51,7 @@ const Login = () => {
               setEmailVerify("Please check your email for verification.")
             } else {
               const uid = user.uid
-              console.log(uid)
-              console.log(userCredential)
+              // console.log(userCredential)
               navigate("/home")
             }
           })
@@ -57,13 +59,35 @@ const Login = () => {
         .catch((error) => {
           console.log(error)
           const errorCode = error.code
-          if (errorCode.includes("user")) {
+          if (errorCode.includes("user-not-found")) {
             setEmailErrMsg("User not found.")
           } else if (errorCode.includes("password")) {
             setPasswordErrMsg("Wrong password.")
           }
         })
     }
+  }
+
+  let handleGoogleSignin = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result)
+        const token = credential.accessToken
+        // The signed-in user info.
+        const user = result.user
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code
+        const errorMessage = error.message
+        // The email of the user's account used.
+        const email = error.customData.email
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error)
+        // ...
+      })
   }
 
   return (
@@ -75,8 +99,7 @@ const Login = () => {
               <h2>Get Started with registration.</h2>
               <p>Welcome : )</p>
               <div className="loginoption">
-                <div className="option">
-                  {" "}
+                <div className="option" onClick={handleGoogleSignin}>
                   <FcGoogle className="option-icon google" /> Login with Google
                 </div>
                 <div className="option">
@@ -97,6 +120,13 @@ const Login = () => {
                   style={{ width: "355px", marginTop: "20px" }}
                 >
                   {passwordErrMsg}
+                </Alert>
+              ) : emailErrMsg ? (
+                <Alert
+                  severity="error"
+                  style={{ width: "355px", marginTop: "20px" }}
+                >
+                  {emailErrMsg}
                 </Alert>
               ) : (
                 ""

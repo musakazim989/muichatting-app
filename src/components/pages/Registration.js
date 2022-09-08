@@ -8,6 +8,7 @@ import {
 } from "firebase/auth"
 
 const Registration = () => {
+  const auth = getAuth()
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -20,7 +21,6 @@ const Registration = () => {
   const [passmatcherr, setPassmatcherr] = useState("")
   const [emailErrMsg, setEmailErrMsg] = useState("")
 
-  const auth = getAuth()
   let navigate = useNavigate()
 
   let handleSubmit = () => {
@@ -52,8 +52,11 @@ const Registration = () => {
         })
         .catch((error) => {
           const errorCode = error.code
-          if (errorCode.includes("email")) {
+          console.log(errorCode)
+          if (errorCode.includes("email-already-in-use")) {
             setEmailErrMsg("Email already used, please use another email.")
+          } else if (errorCode.includes("invalid-email")) {
+            setEmailErrMsg("invalid-email")
           }
         })
     }
