@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import { Grid } from "@mui/material"
+import Leftbar from "./Leftbar"
 
 const Home = () => {
   const auth = getAuth()
@@ -23,7 +24,7 @@ const Home = () => {
     <>
       <Grid container spacing={2}>
         <Grid item xs={2}>
-          left
+          <Leftbar />
         </Grid>
         <Grid item xs={4}>
           next left
