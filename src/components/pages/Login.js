@@ -55,6 +55,7 @@ const Login = () => {
           })
         })
         .catch((error) => {
+          console.log(error)
           const errorCode = error.code
           if (errorCode.includes("user")) {
             setEmailErrMsg("User not found.")
