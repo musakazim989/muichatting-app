@@ -10,6 +10,7 @@ import {
   onAuthStateChanged,
   signInWithPopup,
   GoogleAuthProvider,
+  FacebookAuthProvider,
 } from "firebase/auth"
 
 const Login = () => {
@@ -77,6 +78,7 @@ const Login = () => {
         // The signed-in user info.
         const user = result.user
         // ...
+        navigate("/home")
       })
       .catch((error) => {
         // Handle Errors here.
@@ -86,6 +88,33 @@ const Login = () => {
         const email = error.customData.email
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error)
+        // ...
+      })
+  }
+
+  let handleFacebookSignin = () => {
+    const provider = new FacebookAuthProvider()
+    const auth = getAuth()
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // The signed-in user info.
+        const user = result.user
+
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        const credential = FacebookAuthProvider.credentialFromResult(result)
+        const accessToken = credential.accessToken
+
+        navigate("/home")
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code
+        const errorMessage = error.message
+        // The email of the user's account used.
+        const email = error.customData.email
+        // The AuthCredential type that was used.
+        const credential = FacebookAuthProvider.credentialFromError(error)
+
         // ...
       })
   }
@@ -102,7 +131,7 @@ const Login = () => {
                 <div className="option" onClick={handleGoogleSignin}>
                   <FcGoogle className="option-icon google" /> Login with Google
                 </div>
-                <div className="option">
+                <div className="option" onClick={handleFacebookSignin}>
                   <FaFacebook className="option-icon facebook" />
                   Login with Facebook
                 </div>
