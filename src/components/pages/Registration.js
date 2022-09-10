@@ -5,6 +5,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth"
 
 const Registration = () => {
@@ -44,8 +45,19 @@ const Registration = () => {
     } else {
       setPassmatcherr("")
       createUserWithEmailAndPassword(auth, email, password)
-        .then((user) => {
+        .then(() => {
           sendEmailVerification(auth.currentUser).then(() => {
+            updateProfile(auth.currentUser, {
+              displayName: name,
+              // photoURL: "https://example.com/jane-q-user/profile.jpg",
+            })
+              .then(() => {
+                console.log("name set")
+              })
+              .catch((error) => {
+                console.log("nameset", error)
+              })
+
             console.log("Email Send")
             navigate("/login")
           })

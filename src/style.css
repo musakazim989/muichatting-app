@@ -125,11 +125,26 @@ ol {
   margin-top: 35px;
 }
 .leftbar li {
-  margin-top: 43px;
-  width: 150px;
-  color: #3d0e88;
+  margin-top: 25px;
+  width: 90%;
+  background: #3d0e88;
   margin-left: auto;
-  padding: 5px 0;
+  padding: 15px 0;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  position: relative;
+}
+
+.leftbar li:after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 100%;
+  background: #3d0e88;
+  content: "";
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
 }
 
 .leftbar .active {
@@ -139,4 +154,17 @@ ol {
 .leftbar .icon {
   font-size: 45px;
   color: #fff;
+  margin-left: -8px;
+}
+
+.leftbar .active .icon {
+  color: #3d0e88;
+}
+
+.leftbar h5 {
+  color: #fff;
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 10px;
 }
