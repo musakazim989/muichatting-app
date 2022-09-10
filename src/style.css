@@ -168,3 +168,87 @@ ol {
   font-weight: 700;
   margin-top: 10px;
 }
+
+.search {
+  margin-top: 35px;
+}
+
+.search .searchbox {
+  -webkit-box-shadow: 0px 5px 21px 0px rgba(0, 0, 0, 0.34);
+  -moz-box-shadow: 0px 5px 21px 0px rgba(0, 0, 0, 0.34);
+  box-shadow: 0px 5px 21px 0px rgba(0, 0, 0, 0.34);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.search .css-1vm0r4s-MuiPaper-root {
+  border-radius: 20px;
+}
+
+.grouplist {
+  -webkit-box-shadow: 0px 5px 21px 0px rgba(0, 0, 0, 0.34);
+  -moz-box-shadow: 0px 5px 21px 0px rgba(0, 0, 0, 0.34);
+  box-shadow: 0px 5px 21px 0px rgba(0, 0, 0, 0.34);
+  border-radius: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 17px 45px;
+}
+
+.grouplist h2 {
+  font-family: "Nunito", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.grouplist .box {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.grouplist .box h4 {
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+.grouplist .box h5 {
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #4d4d4d;
+}
+
+.grouplist .img img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.grouplist .box .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grouplist .box .button button {
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  background: #3d0e88;
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 5px;
+  border: 0;
+}
+
+.grouplist .divider {
+  border-bottom: 1px solid rgba(18, 24, 92, 0.2);
+}
+
+.grouplist .divider:last-child {
+  border-bottom: none;
+}

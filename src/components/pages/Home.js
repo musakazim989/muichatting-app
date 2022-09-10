@@ -3,6 +3,8 @@ import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import { Grid } from "@mui/material"
 import Leftbar from "./Leftbar"
+import Search from "./Search"
+import GroupList from "./GroupList"
 
 const Home = () => {
   const auth = getAuth()
@@ -27,7 +29,8 @@ const Home = () => {
           <Leftbar />
         </Grid>
         <Grid item xs={4}>
-          next left
+          <Search />
+          <GroupList />
         </Grid>
         <Grid item xs={3}>
           next right
