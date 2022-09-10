@@ -11,16 +11,23 @@ const Leftbar = () => {
       <img className="profilepic" src="./assets/images/profile.jpg" alt="" />
 
       <div className="icons">
-        <br />
-        <MdOutlineHome className="icon" />
-        <br />
-        <BsChatDots className="icon" />
-        <br />
-        <FaRegBell className="icon" />
-        <br />
-        <MdOutlineSettings className="icon" />
-        <br />
-        <IoExitOutline className="icon" />
+        <ul>
+          <li className="active">
+            <MdOutlineHome className="icon " />
+          </li>
+          <li>
+            <BsChatDots className="icon" />
+          </li>
+          <li>
+            <FaRegBell className="icon" />
+          </li>
+          <li>
+            <MdOutlineSettings className="icon" />
+          </li>
+          <li>
+            <IoExitOutline className="icon" />
+          </li>
+        </ul>
       </div>
     </div>
   )
