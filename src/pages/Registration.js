@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { Grid, TextField, Button, Alert } from "@mui/material"
 import { Link, useNavigate } from "react-router-dom"
+import { getDatabase, ref, set } from "firebase/database"
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -25,6 +26,7 @@ const Registration = () => {
   let navigate = useNavigate()
 
   let handleSubmit = () => {
+    const db = getDatabase()
     if (!name) {
       setNameError("Please enter your name")
     } else if (!email) {
@@ -53,6 +55,11 @@ const Registration = () => {
             })
               .then(() => {
                 console.log("name set")
+                set(ref(db, "users/" + auth.currentUser.uid), {
+                  username: name,
+                  email: email,
+                  // profile_picture : imageUrl
+                })
               })
               .catch((error) => {
                 console.log("nameset", error)

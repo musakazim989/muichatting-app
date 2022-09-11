@@ -5,7 +5,7 @@ import { FaRegBell } from "react-icons/fa"
 import { IoExitOutline } from "react-icons/io5"
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
-import { Button, Modal, Box, Typography } from "@mui/material"
+import { Modal, Box, Typography } from "@mui/material"
 
 const style = {
   position: "absolute",
@@ -25,7 +25,7 @@ const Leftbar = (props) => {
   const [open, setOpen] = React.useState(false)
   const navigate = useNavigate()
 
-  const handleOpen = () => setOpen(true)
+  // const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
   useEffect(() => {
@@ -60,16 +60,16 @@ const Leftbar = (props) => {
 
       <div className="icons">
         <ul>
-          <li className={props.active === "home" && "active"}>
+          <li className={props.active == "home" && "active"}>
             <MdOutlineHome className="icon " />
           </li>
-          <li className={props.active === "msg" && "active"}>
+          <li className={props.active == "msg" && "active"}>
             <BsChatDots className="icon" />
           </li>
-          <li className={props.active === "notification" && "active"}>
+          <li className={props.active == "notification" && "active"}>
             <FaRegBell className="icon" />
           </li>
-          <li className={props.active === "settings" && "active"}>
+          <li className={props.active == "settings" && "active"}>
             <MdOutlineSettings className="icon" />
           </li>
           <li>

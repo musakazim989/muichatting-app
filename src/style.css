@@ -275,3 +275,10 @@ ol {
   font-size: 10px;
   font-weight: 500;
 }
+
+.userlist .box .button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ 
