@@ -60,16 +60,16 @@ const Leftbar = (props) => {
 
       <div className="icons">
         <ul>
-          <li className={props.active == "home" && "active"}>
+          <li className={props.active === "home" && "active"}>
             <MdOutlineHome className="icon " />
           </li>
-          <li className={props.active == "msg" && "active"}>
+          <li className={props.active === "msg" && "active"}>
             <BsChatDots className="icon" />
           </li>
-          <li className={props.active == "notification" && "active"}>
+          <li className={props.active === "notification" && "active"}>
             <FaRegBell className="icon" />
           </li>
-          <li className={props.active == "settings" && "active"}>
+          <li className={props.active === "settings" && "active"}>
             <MdOutlineSettings className="icon" />
           </li>
           <li>
@@ -77,7 +77,7 @@ const Leftbar = (props) => {
           </li>
         </ul>
       </div>
-      <Button onClick={handleOpen}>Open modal</Button>
+
       <Modal
         open={open}
         onClose={handleClose}

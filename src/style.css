@@ -194,6 +194,8 @@ ol {
   box-sizing: border-box;
   padding: 17px 45px;
   margin-top: 40px;
+  height: 292px;
+  overflow-y: scroll;
 }
 
 .grouplist h2 {
@@ -252,4 +254,24 @@ ol {
 
 .grouplist .divider:last-child {
   border-bottom: none;
+}
+
+.friendlist {
+  height: 708px;
+  padding: 17px 30px;
+}
+
+.friendlist .img img {
+  margin-right: 5px;
+}
+
+.friendlist .box .button {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.friendlist .button p {
+  font-family: "Nunito", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
 }

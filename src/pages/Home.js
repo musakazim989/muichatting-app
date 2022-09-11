@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import { Grid } from "@mui/material"
-import Leftbar from "./Leftbar"
-import Search from "./Search"
-import GroupList from "./GroupList"
+import Leftbar from "../components/Leftbar"
+import Search from "../components/Search"
+import GroupList from "../components/GroupList"
+import FriendRequest from "../components/FriendRequest"
+import Friends from "../components/Friends"
+import Userlist from "../components/Userlist"
 
 const Home = () => {
   const auth = getAuth()
@@ -31,12 +34,13 @@ const Home = () => {
         <Grid item xs={4}>
           <Search />
           <GroupList />
+          <FriendRequest />
         </Grid>
         <Grid item xs={3}>
-          next right
+          <Friends />
         </Grid>
         <Grid item xs={3}>
-          right
+          <Userlist />
         </Grid>
       </Grid>
     </>

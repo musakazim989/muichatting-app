@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 import { Routes, Route } from "react-router-dom"
-import Registration from "./components/pages/Registration"
-import Login from "./components/pages/Login"
-import Home from "./components/pages/Home"
+import Registration from "./pages/Registration"
+import Login from "./pages/Login"
+import Home from "./pages/Home"
 function App() {
   return (
     <>
