@@ -281,4 +281,10 @@ ol {
   justify-content: center;
   align-items: center;
 }
- 
+
+.userlist .box .name {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  flex-direction: column;
+}

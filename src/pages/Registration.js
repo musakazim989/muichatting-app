@@ -27,6 +27,7 @@ const Registration = () => {
 
   let handleSubmit = () => {
     const db = getDatabase()
+
     if (!name) {
       setNameError("Please enter your name")
     } else if (!email) {

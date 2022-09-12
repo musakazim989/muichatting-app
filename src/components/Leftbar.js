@@ -6,6 +6,7 @@ import { IoExitOutline } from "react-icons/io5"
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import { Modal, Box, Typography } from "@mui/material"
+import { Link } from "react-router-dom"
 
 const style = {
   position: "absolute",
@@ -61,7 +62,9 @@ const Leftbar = (props) => {
       <div className="icons">
         <ul>
           <li className={props.active == "home" && "active"}>
-            <MdOutlineHome className="icon " />
+            <Link to="/home">
+              <MdOutlineHome className="icon " />
+            </Link>
           </li>
           <li className={props.active == "msg" && "active"}>
             <BsChatDots className="icon" />
