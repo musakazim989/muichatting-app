@@ -17,6 +17,7 @@ const Userlist = () => {
     const starCountRef = ref(db, "users/")
     onValue(starCountRef, (snapshot) => {
       snapshot.forEach((item) => {
+        // console.log(item)
         userArr.push({
           username: item.val().username,
           email: item.val().email,
@@ -28,14 +29,10 @@ const Userlist = () => {
   }, [])
 
   let handleFriendRequest = (data) => {
-    console.log(data.id)
-
     set(ref(db, "friendrequest"), {
       name: data.username,
       receiverid: data.id,
       senderid: auth.currentUser.uid,
-
-      // profile_picture: imageUrl,
     })
   }
 

@@ -3,31 +3,20 @@ import { getDatabase, ref, onValue } from "firebase/database"
 
 const FriendRequest = () => {
   const db = getDatabase()
-  const [friendsData, setFriendsData] = useState()
 
   useEffect(() => {
-    let userArr = []
-    const starCountRef = ref(db, "friendrequest")
-    onValue(starCountRef, (snapshot) => {
-      const data = snapshot.val()
-      console.log(data)
-    })
-
+    const starCountRef = ref(db, "friendrequest/")
     onValue(starCountRef, (snapshot) => {
       snapshot.forEach((item) => {
-        userArr.push({
-          username: item.val().username,
-          email: item.val().email,
-          id: item.key,
-        })
+        console.log(item.val().name)
       })
-      setUserlist(userArr)
     })
   }, [])
 
   return (
     <div className="grouplist">
       <h2>Friend Request</h2>
+
       <div className="box">
         <div className="img">
           <img src="./assets/images/personal.jpg" alt="" />
