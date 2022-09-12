@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { getDatabase, ref, onValue } from "firebase/database"
+import { getDatabase, ref, onValue, set } from "firebase/database"
 import { getAuth } from "firebase/auth"
 
 const Userlist = () => {
@@ -13,7 +13,6 @@ const Userlist = () => {
   // console.log("ksdhg", userList)
 
   useEffect(() => {
-    console.log("first")
     const userArr = []
     const starCountRef = ref(db, "users/")
     onValue(starCountRef, (snapshot) => {
@@ -29,7 +28,15 @@ const Userlist = () => {
   }, [])
 
   let handleFriendRequest = (data) => {
-    console.log(data)
+    console.log(data.id)
+
+    set(ref(db, "friendrequest"), {
+      name: data.username,
+      receiverid: data.id,
+      senderid: auth.currentUser.uid,
+
+      // profile_picture: imageUrl,
+    })
   }
 
   return (
