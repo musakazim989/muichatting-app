@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { getDatabase, ref, onValue, set } from "firebase/database"
+import { getDatabase, ref, onValue, set, push } from "firebase/database"
 import { getAuth } from "firebase/auth"
 
 const Userlist = () => {
   const auth = getAuth()
   const db = getDatabase()
-
-  // console.log("currentuser", auth.currentUser)
-
   const [userList, setUserlist] = useState([])
 
   // console.log("ksdhg", userList)
@@ -29,8 +26,10 @@ const Userlist = () => {
   }, [])
 
   let handleFriendRequest = (data) => {
-    set(ref(db, "friendrequest"), {
-      name: data.username,
+    const friendList = ref(db, "friendrequest/")
+    const newFriendList = push(friendList)
+    set(newFriendList, {
+      name: auth.currentUser.displayName,
       receiverid: data.id,
       senderid: auth.currentUser.uid,
     })
