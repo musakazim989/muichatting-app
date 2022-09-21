@@ -10,9 +10,9 @@ const Userlist = () => {
   // console.log("ksdhg", userList)
 
   useEffect(() => {
-    const userArr = []
     const starCountRef = ref(db, "users/")
     onValue(starCountRef, (snapshot) => {
+      const userArr = []
       snapshot.forEach((item) => {
         // console.log(item)
         userArr.push({

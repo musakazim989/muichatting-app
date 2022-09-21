@@ -10,12 +10,12 @@ const FriendRequest = () => {
   const [firendReq, setFriendReq] = useState([])
   const [msg, setMsg] = useState("")
 
-  console.log(firendReq)
+  console.log(msg)
 
   useEffect(() => {
-    let friendReqArray = []
     const friendReqRef = ref(db, "friendrequest/")
     onValue(friendReqRef, (snapshot) => {
+      let friendReqArray = []
       snapshot.forEach((item) => {
         if (item.val().receiverid == auth.currentUser.uid) {
           friendReqArray.push({
