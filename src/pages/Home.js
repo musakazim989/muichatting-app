@@ -29,7 +29,7 @@ const Home = () => {
     <>
       <Grid container spacing={2}>
         <Grid item xs={2}>
-          <Leftbar />
+          <Leftbar active="home" />
         </Grid>
         <Grid item xs={4}>
           <Search />
