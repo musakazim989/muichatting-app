@@ -8,7 +8,7 @@ const Userlist = () => {
   const db = getDatabase()
   const [userList, setUserlist] = useState([])
   const [firendReq, setFriendReq] = useState([])
-  const [firendReqSecond, setFirendReqSecond] = useState([])
+  // const [firendReqSecond, setFirendReqSecond] = useState([])
   const [reqChange, setReqChange] = useState(false)
 
   // console.log("ksdhg", userList)
@@ -32,12 +32,12 @@ const Userlist = () => {
     const friendReqRef = ref(db, "friendrequest/")
     onValue(friendReqRef, (snapshot) => {
       let friendReqArray = []
-      let friendReqArraySecond = []
+      // let friendReqArraySecond = []
       snapshot.forEach((item) => {
-        friendReqArray.push(item.val().receiverid)
-        friendReqArraySecond.push(item.val().senderid)
+        friendReqArray.push(item.val().receiverid + item.val().senderid)
+        // friendReqArraySecond.push(item.val().senderid)
         setFriendReq(friendReqArray)
-        setFirendReqSecond(friendReqArraySecond)
+        // setFirendReqSecond(friendReqArraySecond)
       })
     })
   }, [reqChange])
@@ -68,11 +68,9 @@ const Userlist = () => {
                 <h4>{item.username}</h4>
                 <h5>{item.email}</h5>
               </div>
-              {(firendReq.includes(item.id) &&
-                firendReqSecond.includes(auth.currentUser.uid)) ||
-              (firendReq.includes(auth.currentUser.uid) &&
-                firendReqSecond.includes(item.id)) ? (
-                // auth.currentUser.uid
+              {console.log("sadkgksd", item)}
+              {firendReq.includes(item.id + auth.currentUser.uid) ||
+              firendReq.includes(auth.currentUser.uid + item.id) ? (
                 <div className="button">
                   <button>
                     <FaUserFriends />
