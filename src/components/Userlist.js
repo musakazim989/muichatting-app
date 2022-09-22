@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react"
 import { getDatabase, ref, onValue, set, push } from "firebase/database"
 import { getAuth } from "firebase/auth"
+import { FaUserFriends } from "react-icons/fa"
 
 const Userlist = () => {
   const auth = getAuth()
   const db = getDatabase()
   const [userList, setUserlist] = useState([])
+  const [firendReq, setFriendReq] = useState([])
+  const [reqChange, setReqChange] = useState(false)
 
   // console.log("ksdhg", userList)
 
@@ -14,7 +17,6 @@ const Userlist = () => {
     onValue(starCountRef, (snapshot) => {
       const userArr = []
       snapshot.forEach((item) => {
-        // console.log(item)
         userArr.push({
           username: item.val().username,
           email: item.val().email,
@@ -25,6 +27,17 @@ const Userlist = () => {
     })
   }, [])
 
+  useEffect(() => {
+    const friendReqRef = ref(db, "friendrequest/")
+    onValue(friendReqRef, (snapshot) => {
+      let friendReqArray = []
+      snapshot.forEach((item) => {
+        friendReqArray.push(item.val().receiverid)
+        setFriendReq(friendReqArray)
+      })
+    })
+  }, [reqChange])
+
   let handleFriendRequest = (data) => {
     const friendList = ref(db, "friendrequest/")
     const newFriendList = push(friendList)
@@ -33,6 +46,8 @@ const Userlist = () => {
       receiverid: data.id,
       senderid: auth.currentUser.uid,
     })
+
+    setReqChange(!reqChange)
   }
 
   return (
@@ -49,15 +64,23 @@ const Userlist = () => {
                 <h4>{item.username}</h4>
                 <h5>{item.email}</h5>
               </div>
-              <div className="button">
-                <button
-                  onClick={() => {
-                    handleFriendRequest(item)
-                  }}
-                >
-                  +
-                </button>
-              </div>
+              {firendReq.includes(item.id) ? (
+                <div className="button">
+                  <button>
+                    <FaUserFriends />
+                  </button>
+                </div>
+              ) : (
+                <div className="button">
+                  <button
+                    onClick={() => {
+                      handleFriendRequest(item)
+                    }}
+                  >
+                    +
+                  </button>
+                </div>
+              )}
             </div>
           )
       )}
