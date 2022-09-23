@@ -8,7 +8,6 @@ const FriendRequest = () => {
   const db = getDatabase()
 
   const [firendReq, setFriendReq] = useState([])
-  const [msg, setMsg] = useState("")
 
   useEffect(() => {
     const friendReqRef = ref(db, "friendrequest/")
@@ -21,8 +20,6 @@ const FriendRequest = () => {
             receiverid: item.val().receiverid,
             senderid: item.val().senderid,
           })
-        } else {
-          setMsg("No friend request.")
         }
 
         setFriendReq(friendReqArray)
@@ -53,7 +50,9 @@ const FriendRequest = () => {
         </div>
       ))}
 
-      {firendReq.length == 0 && <Alert severity="info">{msg}</Alert>}
+      {firendReq.length == 0 && (
+        <Alert severity="info">No friend request found.</Alert>
+      )}
     </div>
   )
 }
