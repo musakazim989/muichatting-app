@@ -8,10 +8,7 @@ const Userlist = () => {
   const db = getDatabase()
   const [userList, setUserlist] = useState([])
   const [firendReq, setFriendReq] = useState([])
-  // const [firendReqSecond, setFirendReqSecond] = useState([])
   const [reqChange, setReqChange] = useState(false)
-
-  // console.log("ksdhg", userList)
 
   useEffect(() => {
     const starCountRef = ref(db, "users/")
@@ -32,12 +29,9 @@ const Userlist = () => {
     const friendReqRef = ref(db, "friendrequest/")
     onValue(friendReqRef, (snapshot) => {
       let friendReqArray = []
-      // let friendReqArraySecond = []
       snapshot.forEach((item) => {
         friendReqArray.push(item.val().receiverid + item.val().senderid)
-        // friendReqArraySecond.push(item.val().senderid)
         setFriendReq(friendReqArray)
-        // setFirendReqSecond(friendReqArraySecond)
       })
     })
   }, [reqChange])
@@ -46,11 +40,11 @@ const Userlist = () => {
     const friendList = ref(db, "friendrequest/")
     const newFriendList = push(friendList)
     set(newFriendList, {
-      name: auth.currentUser.displayName,
-      receiverid: data.id,
+      sendername: auth.currentUser.displayName,
       senderid: auth.currentUser.uid,
+      recivername: data.username,
+      receiverid: data.id,
     })
-
     setReqChange(!reqChange)
   }
 
@@ -68,7 +62,7 @@ const Userlist = () => {
                 <h4>{item.username}</h4>
                 <h5>{item.email}</h5>
               </div>
-              {console.log("sadkgksd", item)}
+
               {firendReq.includes(item.id + auth.currentUser.uid) ||
               firendReq.includes(auth.currentUser.uid + item.id) ? (
                 <div className="button">

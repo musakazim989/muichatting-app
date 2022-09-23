@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { getDatabase, ref, onValue } from "firebase/database"
+import { getDatabase, ref, onValue, set, push, remove } from "firebase/database"
 import { getAuth } from "firebase/auth"
 import { Alert } from "@mui/material"
 
@@ -8,6 +8,7 @@ const FriendRequest = () => {
   const db = getDatabase()
 
   const [firendReq, setFriendReq] = useState([])
+  let [dlt, setDlt] = useState(true)
 
   useEffect(() => {
     const friendReqRef = ref(db, "friendrequest/")
@@ -16,8 +17,10 @@ const FriendRequest = () => {
       snapshot.forEach((item) => {
         if (item.val().receiverid == auth.currentUser.uid) {
           friendReqArray.push({
-            name: item.val().name,
+            id: item.key,
+            recivername: item.val().recivername,
             receiverid: item.val().receiverid,
+            sendername: item.val().sendername,
             senderid: item.val().senderid,
           })
         }
@@ -25,7 +28,24 @@ const FriendRequest = () => {
         setFriendReq(friendReqArray)
       })
     })
-  }, [])
+    console.log("second")
+  }, [dlt])
+
+  let handleAcceptFriend = (item) => {
+    const db = getDatabase()
+    set(push(ref(db, "friends")), {
+      id: item.id,
+      recivername: item.recivername,
+      receiverid: item.receiverid,
+      sendername: item.sendername,
+      senderid: item.senderid,
+    }).then(() => {
+      remove(ref(db, "friendrequest/" + item.id)).then(() => {
+        console.log("first")
+        setDlt(!dlt)
+      })
+    })
+  }
 
   return (
     <div className="grouplist">
@@ -38,11 +58,11 @@ const FriendRequest = () => {
               <img src="./assets/images/personal.jpg" alt="" />
             </div>
             <div className="name">
-              <h4>{item.name}</h4>
+              <h4>{item.sendername}</h4>
               <h5>The best fishing gourp in Urla</h5>
             </div>
             <div className="button">
-              <button>Accept</button>
+              <button onClick={() => handleAcceptFriend(item)}>Accept</button>
             </div>
           </div>
 
@@ -50,7 +70,7 @@ const FriendRequest = () => {
         </div>
       ))}
 
-      {firendReq.length == 0 && (
+      {firendReq.length === 0 && (
         <Alert severity="info">No friend request found.</Alert>
       )}
     </div>
