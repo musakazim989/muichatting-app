@@ -163,11 +163,9 @@ const Registration = () => {
           </div>
         </Grid>
         <Grid item xs={6}>
-          <img
-            style={{ width: "100%", height: "100vh" }}
-            src="./assets/images/reg.jpg"
-            alt=""
-          />
+          <div className="reg-img">
+            <img src="./assets/images/reg.jpg" alt="" />
+          </div>
         </Grid>
       </Grid>
     </section>

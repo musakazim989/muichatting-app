@@ -207,11 +207,9 @@ const Login = () => {
           </div>
         </Grid>
         <Grid item xs={6}>
-          <img
-            style={{ width: "100%", height: "100vh" }}
-            src="./assets/images/login.jpg"
-            alt=""
-          />
+          <div className="log-img">
+            <img src="./assets/images/login.jpg" alt="" />
+          </div>
         </Grid>
       </Grid>
     </section>

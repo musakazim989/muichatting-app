@@ -108,6 +108,30 @@ ol {
   color: #4267b2;
 }
 
+.registraion-part .reg-img {
+  width: 80%;
+  padding-top: 33px;
+  height: auto;
+}
+
+.registraion-part .reg-img img {
+  width: 100%;
+  border-radius: 20px;
+  height: 100%;
+}
+
+.registraion-part .log-img {
+  width: 95%;
+  padding-top: 33px;
+  height: auto;
+}
+
+.registraion-part .log-img img {
+  width: 100%;
+  border-radius: 20px;
+  height: 100%;
+}
+
 .leftbar {
   height: 100vh;
   background: #3d0e88;
