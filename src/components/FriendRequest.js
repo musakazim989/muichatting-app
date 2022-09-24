@@ -24,9 +24,8 @@ const FriendRequest = () => {
             senderid: item.val().senderid,
           })
         }
-
-        setFriendReq(friendReqArray)
       })
+      setFriendReq(friendReqArray)
     })
     console.log("second")
   }, [dlt])
@@ -40,10 +39,14 @@ const FriendRequest = () => {
       sendername: item.sendername,
       senderid: item.senderid,
     }).then(() => {
-      remove(ref(db, "friendrequest/" + item.id)).then(() => {
-        console.log("first")
-        setDlt(!dlt)
-      })
+      remove(ref(db, "friendrequest/" + item.id))
+        .then(() => {
+          setDlt(!dlt)
+          console.log("first")
+        })
+        .then(() => {
+          console.log("hello")
+        })
     })
   }
 
