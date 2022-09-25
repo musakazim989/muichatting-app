@@ -27,7 +27,6 @@ const FriendRequest = () => {
       })
       setFriendReq(friendReqArray)
     })
-    console.log("second")
   }, [dlt])
 
   let handleAcceptFriend = (item) => {
@@ -39,14 +38,9 @@ const FriendRequest = () => {
       sendername: item.sendername,
       senderid: item.senderid,
     }).then(() => {
-      remove(ref(db, "friendrequest/" + item.id))
-        .then(() => {
-          setDlt(!dlt)
-          console.log("first")
-        })
-        .then(() => {
-          console.log("hello")
-        })
+      remove(ref(db, "friendrequest/" + item.id)).then(() => {
+        setDlt(!dlt)
+      })
     })
   }
 
