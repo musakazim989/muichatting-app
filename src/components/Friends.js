@@ -8,15 +8,17 @@ const Friends = () => {
   const db = getDatabase()
   let [showFriends, setFriendShow] = useState([])
   console.log(showFriends)
+
   useEffect(() => {
     const starCountRef = ref(db, "friends/")
     onValue(starCountRef, (snapshot) => {
       let friendsArr = []
       snapshot.forEach((item) => {
-        if (auth.currentUser.uid == item.val().receiverid) {
-          friendsArr.push({ friendsname: item.val().sendername })
-        } else {
-          friendsArr.push({ friendsname: item.val().recivername })
+        if (
+          auth.currentUser.uid == item.val().senderid ||
+          auth.currentUser.uid == item.val().reciverid
+        ) {
+          friendsArr.push(item.val())
         }
       })
       setFriendShow(friendsArr)
@@ -28,12 +30,18 @@ const Friends = () => {
       <h2>Friends</h2>
       {showFriends.map((item, index) => (
         <div key="index">
+          {console.log("testing", item)}
           <div className="box">
             <div className="img">
               <img src="./assets/images/group.jpg" alt="" />
             </div>
             <div className="name">
-              <h4>{item.friendsname}</h4>
+              {auth.currentUser.uid == item.reciverid ||
+              auth.currentUser.uid == item.senderid ? (
+                <h4>{item.recivername}</h4>
+              ) : (
+                <h4>{item.sendername}</h4>
+              )}
               <h5>The best fishing Group</h5>
             </div>
             <div className="button">
