@@ -18,7 +18,7 @@ const FriendRequest = () => {
         if (item.val().receiverid == auth.currentUser.uid) {
           friendReqArray.push({
             id: item.key,
-            recivername: item.val().recivername,
+            receivername: item.val().receivername,
             receiverid: item.val().receiverid,
             sendername: item.val().sendername,
             senderid: item.val().senderid,
@@ -33,7 +33,7 @@ const FriendRequest = () => {
     const db = getDatabase()
     set(push(ref(db, "friends")), {
       id: item.id,
-      recivername: item.recivername,
+      receivername: item.receivername,
       receiverid: item.receiverid,
       sendername: item.sendername,
       senderid: item.senderid,

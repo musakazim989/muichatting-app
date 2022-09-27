@@ -42,7 +42,7 @@ const Userlist = () => {
     set(newFriendList, {
       sendername: auth.currentUser.displayName,
       senderid: auth.currentUser.uid,
-      recivername: data.username,
+      receivername: data.username,
       receiverid: data.id,
     })
     setReqChange(!reqChange)

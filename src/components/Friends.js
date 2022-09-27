@@ -6,7 +6,7 @@ import { getAuth } from "firebase/auth"
 const Friends = () => {
   const auth = getAuth()
   const db = getDatabase()
-  let [showFriends, setFriendShow] = useState([])
+  const [showFriends, setFriendShow] = useState([])
   console.log(showFriends)
 
   useEffect(() => {
@@ -15,8 +15,8 @@ const Friends = () => {
       let friendsArr = []
       snapshot.forEach((item) => {
         if (
-          auth.currentUser.uid == item.val().senderid ||
-          auth.currentUser.uid == item.val().reciverid
+          auth.currentUser.uid == item.val().receiverid ||
+          auth.currentUser.uid == item.val().senderid
         ) {
           friendsArr.push(item.val())
         }
@@ -28,6 +28,9 @@ const Friends = () => {
   return (
     <div className="grouplist friendlist ">
       <h2>Friends</h2>
+      {showFriends.length === 0 && (
+        <Alert severity="info">You have no friends.</Alert>
+      )}
       {showFriends.map((item, index) => (
         <div key="index">
           {console.log("testing", item)}
@@ -36,9 +39,8 @@ const Friends = () => {
               <img src="./assets/images/group.jpg" alt="" />
             </div>
             <div className="name">
-              {auth.currentUser.uid == item.reciverid ||
-              auth.currentUser.uid == item.senderid ? (
-                <h4>{item.recivername}</h4>
+              {auth.currentUser.uid == item.senderid ? (
+                <h4>{item.receivername}</h4>
               ) : (
                 <h4>{item.sendername}</h4>
               )}
@@ -51,7 +53,6 @@ const Friends = () => {
           <div className="divider"></div>
         </div>
       ))}
-      {showFriends.length === 0 && <Alert severity="info">No friends.</Alert>}
     </div>
   )
 }
