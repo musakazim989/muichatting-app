@@ -24,6 +24,8 @@ const Leftbar = (props) => {
   const auth = getAuth()
   const [userName, setUserName] = useState("")
   const [open, setOpen] = React.useState(false)
+  const [email, setEmail] = useState("")
+  const [userId, setId] = React.useState(false)
   const navigate = useNavigate()
 
   // const handleOpen = () => setOpen(true)
@@ -53,6 +55,17 @@ const Leftbar = (props) => {
   let handleModalOpen = () => {
     setOpen(true)
   }
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log(user)
+        setUserName(user.displayName)
+        setEmail(user.email)
+        setId(user.id)
+      }
+    })
+  }, [])
 
   return (
     <div className="leftbar">
@@ -89,10 +102,11 @@ const Leftbar = (props) => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+            Musa Kazim
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            <h4>{email}</h4>
+            <h4>{userId}</h4>
           </Typography>
         </Box>
       </Modal>

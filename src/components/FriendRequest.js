@@ -31,12 +31,15 @@ const FriendRequest = () => {
 
   let handleAcceptFriend = (item) => {
     const db = getDatabase()
+
     set(push(ref(db, "friends")), {
       id: item.id,
       receivername: item.receivername,
       receiverid: item.receiverid,
       sendername: item.sendername,
       senderid: item.senderid,
+      date: `${new Date().getDate()}/${new Date().getMonth() +
+        1}/${new Date().getFullYear()}`,
     }).then(() => {
       remove(ref(db, "friendrequest/" + item.id)).then(() => {
         setDlt(!dlt)
@@ -49,22 +52,23 @@ const FriendRequest = () => {
       <h2>Friend Request</h2>
 
       {firendReq.map((item, index) => (
-        <div key={index}>
-          <div className="box">
-            <div className="img">
-              <img src="./assets/images/personal.jpg" alt="" />
-            </div>
-            <div className="name">
-              <h4>{item.sendername}</h4>
-              <h5>The best fishing gourp in Urla</h5>
-            </div>
-            <div className="button">
-              <button onClick={() => handleAcceptFriend(item)}>Accept</button>
+        <>
+          <div key={index}>
+            <div className="box">
+              <div className="img">
+                <img src="./assets/images/personal.jpg" alt="" />
+              </div>
+              <div className="name">
+                <h4>{item.sendername}</h4>
+                <h5>The best fishing gourp in Urla</h5>
+              </div>
+              <div className="button">
+                <button onClick={() => handleAcceptFriend(item)}>Accept</button>
+              </div>
             </div>
           </div>
-
           <div className="divider"></div>
-        </div>
+        </>
       ))}
 
       {firendReq.length === 0 && (

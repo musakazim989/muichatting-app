@@ -139,6 +139,7 @@ ol {
   margin: 35px;
   border-radius: 20px;
   text-align: center;
+  margin-top: 40px;
 }
 
 .leftbar .profilepic {
@@ -195,7 +196,7 @@ ol {
 }
 
 .search {
-  margin-top: 35px;
+  margin-top: 40px;
 }
 
 .search .searchbox {
@@ -312,9 +313,3 @@ ol {
   justify-content: center;
   flex-direction: column;
 }
-
-/* .friends .name {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-} */
