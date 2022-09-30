@@ -102,11 +102,11 @@ const Leftbar = (props) => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Musa Kazim
+            Profile Informaiton
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <h4>{email}</h4>
-            <h4>{userId}</h4>
+            <h4>Your Id: {email}</h4>
+            <h4>Your Email: {userId}</h4>
           </Typography>
         </Box>
       </Modal>
