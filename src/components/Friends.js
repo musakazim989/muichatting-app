@@ -27,7 +27,7 @@ const Friends = () => {
   return (
     <div className="grouplist friendlist ">
       {showFriends.length > 1 ? (
-        <h2>Friends {showFriends.length}</h2>
+        <h2>{showFriends.length} Friends</h2>
       ) : (
         <h2>Friend</h2>
       )}
