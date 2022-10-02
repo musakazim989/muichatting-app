@@ -195,6 +195,11 @@ ol {
   margin-top: 10px;
 }
 
+.leftbar .css-1wns {
+  width: 800px !important;
+  background: red;
+}
+
 .search {
   margin-top: 40px;
 }

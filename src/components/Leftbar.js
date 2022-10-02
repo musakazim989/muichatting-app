@@ -26,6 +26,7 @@ const Leftbar = (props) => {
   const [open, setOpen] = React.useState(false)
   const [email, setEmail] = useState("")
   const [userId, setId] = React.useState(false)
+  const [creationTime, setCreationTime] = useState("")
   const navigate = useNavigate()
 
   // const handleOpen = () => setOpen(true)
@@ -62,7 +63,8 @@ const Leftbar = (props) => {
         console.log(user)
         setUserName(user.displayName)
         setEmail(user.email)
-        setId(user.id)
+        setId(user.uid)
+        setCreationTime(user.metadata.creationTime)
       }
     })
   }, [])
@@ -105,8 +107,9 @@ const Leftbar = (props) => {
             Profile Informaiton
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <h4>Your Id: {email}</h4>
-            <h4>Your Email: {userId}</h4>
+            <h5>Your Email: {email}</h5>
+            <h5>Your Id: {userId}</h5>
+            <h5>Account creation time: {creationTime}</h5>
           </Typography>
         </Box>
       </Modal>
