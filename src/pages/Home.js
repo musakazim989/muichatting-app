@@ -11,9 +11,8 @@ import Userlist from "../components/Userlist"
 
 const Home = () => {
   const auth = getAuth()
-  const [emailVerify, setemailVerify] = useState(false)
-
   const navigate = useNavigate()
+  const [emailVerify, setemailVerify] = useState(false)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {

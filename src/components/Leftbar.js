@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { MdOutlineHome, MdOutlineSettings } from "react-icons/md"
 import { BsChatDots } from "react-icons/bs"
 import { FaRegBell } from "react-icons/fa"
+import { AiOutlineCamera } from "react-icons/ai"
 import { IoExitOutline } from "react-icons/io5"
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
@@ -22,15 +23,21 @@ const style = {
 
 const Leftbar = (props) => {
   const auth = getAuth()
+
   const [userName, setUserName] = useState("")
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
+  const [openImg, setOpenImg] = useState(false)
   const [email, setEmail] = useState("")
-  const [userId, setId] = React.useState(false)
+  const [userId, setId] = useState(false)
   const [creationTime, setCreationTime] = useState("")
   const navigate = useNavigate()
 
-  // const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const handleClose = () => {
+    setOpen(false)
+    setOpenImg(false)
+  }
+
+  // console.log(auth.currentUser.uid)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -43,24 +50,9 @@ const Leftbar = (props) => {
     })
   }, [])
 
-  let handleSignout = () => {
-    signOut(auth)
-      .then(() => {
-        navigate("/login")
-      })
-      .catch((error) => {
-        // An error happened.
-      })
-  }
-
-  let handleModalOpen = () => {
-    setOpen(true)
-  }
-
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log(user)
         setUserName(user.displayName)
         setEmail(user.email)
         setId(user.uid)
@@ -69,9 +61,38 @@ const Leftbar = (props) => {
     })
   }, [])
 
+  let handleSignout = () => {
+    signOut(auth)
+      .then(() => {
+        navigate("/login")
+      })
+      .catch((error) => {
+        // An error happened.
+        console.log("leftbar", error)
+      })
+  }
+
+  let handleModalOpen = () => {
+    setOpen(true)
+  }
+
+  let handleModaImg = () => {
+    setOpenImg(true)
+  }
+
   return (
     <div className="leftbar">
-      <img className="profilepic" src="./assets/images/profile.jpg" alt="" />
+      <div className="profilepicbox">
+        {!auth.currentUser ? (
+          <img className="profilepic" src="./assets/images/avatar.png" alt="" />
+        ) : (
+          <img className="profilepic" src="./assets/images/avatar.png" alt="" />
+        )}
+
+        <div className="overlay" onClick={handleModaImg}>
+          <AiOutlineCamera className="img-icon" />
+        </div>
+      </div>
       <h5 onClick={handleModalOpen}>{userName}</h5>
 
       <div className="icons">
@@ -110,6 +131,29 @@ const Leftbar = (props) => {
             <h5>Your Email: {email}</h5>
             <h5>Your Id: {userId}</h5>
             <h5>Account creation time: {creationTime}</h5>
+          </Typography>
+        </Box>
+      </Modal>
+
+      <Modal
+        open={openImg}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style} className="leftbarbox">
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Update Profile Picture
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <div className="profilepicbox">
+              <img
+                className="profilepic"
+                src="./assets/images/avatar.png"
+                alt=""
+              />
+            </div>
+            <input type="file" placeholder="" />
           </Typography>
         </Box>
       </Modal>
