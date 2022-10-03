@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react"
-import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
+import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage"
+import {
+  getAuth,
+  signOut,
+  onAuthStateChanged,
+  updateProfile,
+} from "firebase/auth"
 import { MdOutlineHome, MdOutlineSettings } from "react-icons/md"
 import { BsChatDots } from "react-icons/bs"
 import { FaRegBell } from "react-icons/fa"
@@ -25,6 +31,8 @@ const style = {
 
 const Leftbar = (props) => {
   const auth = getAuth()
+  const storage = getStorage()
+
   const navigate = useNavigate()
 
   const [userName, setUserName] = useState("")
@@ -33,7 +41,7 @@ const Leftbar = (props) => {
   const [email, setEmail] = useState("")
   const [userId, setId] = useState(false)
   const [creationTime, setCreationTime] = useState("")
-  const [imgphotoURL, setimgphotoURL] = useState("")
+  const [imgphotoURL, setimgphotoURL] = useState()
 
   const [image, setImage] = useState()
   const [cropData, setCropData] = useState("#")
@@ -71,16 +79,17 @@ const Leftbar = (props) => {
         setEmail(user.email)
         setId(user.uid)
         setCreationTime(user.metadata.creationTime)
+        setimgphotoURL(user.photoURL)
       }
     })
   }, [])
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      console.log("this is", user)
-      setimgphotoURL(user.photoURL)
-    })
-  }, [])
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     console.log("this is", user)
+  //     setimgphotoURL(user.photoURL)
+  //   })
+  // }, [])
 
   let handleProfileupload = (e) => {
     console.log(e.target.files[0])
@@ -101,18 +110,36 @@ const Leftbar = (props) => {
 
   const getCropData = () => {
     if (typeof cropper !== "undefined") {
-      console.log(cropper.getCroppedCanvas().toDataURL())
+      const storageRef = ref(storage, userId)
+
+      const message4 = cropper.getCroppedCanvas().toDataURL()
+      uploadString(storageRef, message4, "data_url").then((snapshot) => {
+        console.log("Uploaded a data_url string!", snapshot)
+
+        getDownloadURL(ref(storageRef)).then((url) => {
+          console.log(url)
+
+          updateProfile(auth.currentUser, {
+            photoURL: url,
+          })
+            .then(() => {
+              console.log("image uploded")
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        })
+      })
     }
   }
 
   return (
     <div className="leftbar">
       <div className="profilepicbox">
-        {imgphotoURL !== "" ? (
+        {!imgphotoURL ? (
           <img className="profilepic" src="./assets/images/avatar.png" alt="" />
         ) : (
-          <h1>sgklhsak</h1>
-          // <img className="profilepic" src="./assets/images/avatar.png" alt="" />
+          <img className="profilepic" src={imgphotoURL} alt="" />
         )}
 
         <div className="overlay" onClick={handleModaImg}>
@@ -174,7 +201,7 @@ const Leftbar = (props) => {
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <div className="profilepicbox">
-              {imgphotoURL !== "" ? (
+              {!imgphotoURL ? (
                 image ? (
                   <div className="img-preview"></div>
                 ) : (
@@ -184,8 +211,10 @@ const Leftbar = (props) => {
                     alt=""
                   />
                 )
+              ) : image ? (
+                <div className="img-preview"></div>
               ) : (
-                <img className="profilepic" src={image} alt="" />
+                <img className="profilepic" src={imgphotoURL} alt="" />
               )}
             </div>
 
