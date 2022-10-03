@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react"
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
 import { MdOutlineHome, MdOutlineSettings } from "react-icons/md"
 import { BsChatDots } from "react-icons/bs"
 import { FaRegBell } from "react-icons/fa"
 import { AiOutlineCamera } from "react-icons/ai"
 import { IoExitOutline } from "react-icons/io5"
-import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import { Modal, Box, Typography } from "@mui/material"
 import { Link } from "react-router-dom"
+import Cropper from "react-cropper"
+import "cropperjs/dist/cropper.css"
 
 const style = {
   position: "absolute",
@@ -23,6 +25,7 @@ const style = {
 
 const Leftbar = (props) => {
   const auth = getAuth()
+  const navigate = useNavigate()
 
   const [userName, setUserName] = useState("")
   const [open, setOpen] = useState(false)
@@ -30,36 +33,24 @@ const Leftbar = (props) => {
   const [email, setEmail] = useState("")
   const [userId, setId] = useState(false)
   const [creationTime, setCreationTime] = useState("")
-  const navigate = useNavigate()
+  const [imgphotoURL, setimgphotoURL] = useState("")
+
+  const [image, setImage] = useState()
+  const [cropData, setCropData] = useState("#")
+  const [cropper, setCropper] = useState()
 
   const handleClose = () => {
     setOpen(false)
     setOpenImg(false)
   }
 
-  // console.log(auth.currentUser.uid)
+  let handleModalOpen = () => {
+    setOpen(true)
+  }
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserName(user.displayName)
-      } else {
-        console.log("no user")
-        navigate("/login")
-      }
-    })
-  }, [])
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserName(user.displayName)
-        setEmail(user.email)
-        setId(user.uid)
-        setCreationTime(user.metadata.creationTime)
-      }
-    })
-  }, [])
+  let handleModaImg = () => {
+    setOpenImg(true)
+  }
 
   let handleSignout = () => {
     signOut(auth)
@@ -72,27 +63,63 @@ const Leftbar = (props) => {
       })
   }
 
-  let handleModalOpen = () => {
-    setOpen(true)
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      console.log("this is", user)
+      if (user) {
+        setUserName(user.displayName)
+        setEmail(user.email)
+        setId(user.uid)
+        setCreationTime(user.metadata.creationTime)
+      }
+    })
+  }, [])
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      console.log("this is", user)
+      setimgphotoURL(user.photoURL)
+    })
+  }, [])
+
+  let handleProfileupload = (e) => {
+    console.log(e.target.files[0])
+
+    e.preventDefault()
+    let files
+    if (e.dataTransfer) {
+      files = e.dataTransfer.files
+    } else if (e.target) {
+      files = e.target.files
+    }
+    const reader = new FileReader()
+    reader.onload = () => {
+      setImage(reader.result)
+    }
+    reader.readAsDataURL(files[0])
   }
 
-  let handleModaImg = () => {
-    setOpenImg(true)
+  const getCropData = () => {
+    if (typeof cropper !== "undefined") {
+      console.log(cropper.getCroppedCanvas().toDataURL())
+    }
   }
 
   return (
     <div className="leftbar">
       <div className="profilepicbox">
-        {!auth.currentUser ? (
+        {imgphotoURL !== "" ? (
           <img className="profilepic" src="./assets/images/avatar.png" alt="" />
         ) : (
-          <img className="profilepic" src="./assets/images/avatar.png" alt="" />
+          <h1>sgklhsak</h1>
+          // <img className="profilepic" src="./assets/images/avatar.png" alt="" />
         )}
 
         <div className="overlay" onClick={handleModaImg}>
           <AiOutlineCamera className="img-icon" />
         </div>
       </div>
+
       <h5 onClick={handleModalOpen}>{userName}</h5>
 
       <div className="icons">
@@ -127,10 +154,10 @@ const Leftbar = (props) => {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Profile Informaiton
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <h5>Your Email: {email}</h5>
-            <h5>Your Id: {userId}</h5>
-            <h5>Account creation time: {creationTime}</h5>
+          <Typography id="modal-modal-description modal-text" sx={{ mt: 2 }}>
+            <div>Your Email: {email}</div>
+            <div>Your Id: {userId}</div>
+            <div>Account creation time: {creationTime}</div>
           </Typography>
         </Box>
       </Modal>
@@ -147,13 +174,44 @@ const Leftbar = (props) => {
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <div className="profilepicbox">
-              <img
-                className="profilepic"
-                src="./assets/images/avatar.png"
-                alt=""
-              />
+              {imgphotoURL !== "" ? (
+                image ? (
+                  <div className="img-preview"></div>
+                ) : (
+                  <img
+                    className="profilepic"
+                    src="./assets/images/avatar.png"
+                    alt=""
+                  />
+                )
+              ) : (
+                <img className="profilepic" src={image} alt="" />
+              )}
             </div>
-            <input type="file" placeholder="" />
+
+            <input type="file" onChange={handleProfileupload} />
+
+            <Cropper
+              style={{ height: 200, width: "50%" }}
+              zoomTo={0.5}
+              initialAspectRatio={1}
+              preview=".img-preview"
+              src={image}
+              viewMode={1}
+              minCropBoxHeight={10}
+              minCropBoxWidth={10}
+              background={false}
+              responsive={true}
+              autoCropArea={1}
+              checkOrientation={false}
+              onInitialized={(instance) => {
+                setCropper(instance)
+              }}
+              guides={true}
+            />
+            {image && (
+              <button onClick={getCropData}>Upload Profile Image</button>
+            )}
           </Typography>
         </Box>
       </Modal>
