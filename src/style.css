@@ -67,6 +67,12 @@ h5 {
   color: #fff;
 }
 
+.sw-text {
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
 /*=================
     dark-mode-end
   ================*/

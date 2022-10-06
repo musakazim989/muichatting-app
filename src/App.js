@@ -31,14 +31,14 @@ function App() {
           <div className="dlmode" onClick={handleDlMode}>
             {dl ? (
               <>
-                <p>Switch Light: </p>
+                <p className="sw-text">Switch Light: </p>
                 <span className="on">
                   <MdOutlineDarkMode />
                 </span>
               </>
             ) : (
               <>
-                <p>Switch Dark: </p>
+                <p className="sw-text">Switch Dark: </p>
                 <span className="off">
                   <MdDarkMode />
                 </span>
