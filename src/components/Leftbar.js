@@ -151,18 +151,22 @@ const Leftbar = (props) => {
 
       <div className="icons">
         <ul>
-          <li className={props.active == "home" && "active"}>
+          <li className={props.active == "home" ? "home" : "active"}>
             <Link to="/home">
               <MdOutlineHome className="icon " />
             </Link>
           </li>
-          <li className={props.active == "msg" && "active"}>
+          <li className={props.active == "msg" ? "msg" : "active"}>
             <BsChatDots className="icon" />
           </li>
-          <li className={props.active == "notification" && "active"}>
+          <li
+            className={
+              props.active == "notification" ? "notification" : "active"
+            }
+          >
             <FaRegBell className="icon" />
           </li>
-          <li className={props.active == "settings" && "active"}>
+          <li className={props.active == "settings" ? "settings" : "active"}>
             <MdOutlineSettings className="icon" />
           </li>
           <li>

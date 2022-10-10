@@ -12,6 +12,7 @@ function App() {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
+      console.log(user)
       if (user) {
         setShow(true)
       } else {
@@ -24,6 +25,7 @@ function App() {
     setDl(!dl)
     console.log(dl)
   }
+
   return (
     <>
       <div className={dl ? "dark" : "light"}>

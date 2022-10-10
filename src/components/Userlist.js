@@ -67,44 +67,42 @@ const Userlist = () => {
       {userList.map(
         (item, index) =>
           auth.currentUser.uid !== item.id && (
-            <>
-              <div className="box" key={index}>
-                <div className="img">
-                  <img src="./assets/images/group.jpg" alt="" />
-                </div>
-                <div className="name">
-                  <h4>{item.username}</h4>
-                  <h5>{item.email}</h5>
-                </div>
-
-                {friends.includes(item.id + auth.currentUser.uid) ||
-                friends.includes(auth.currentUser.uid + item.id) ? (
-                  <div className="button">
-                    <button>
-                      <FaUserFriends />
-                    </button>
-                  </div>
-                ) : firendReq.includes(item.id + auth.currentUser.uid) ||
-                  firendReq.includes(auth.currentUser.uid + item.id) ? (
-                  <div className="button">
-                    <button>
-                      <BsPersonCheckFill />
-                    </button>
-                  </div>
-                ) : (
-                  <div className="button">
-                    <button
-                      onClick={() => {
-                        handleFriendRequest(item)
-                      }}
-                    >
-                      +
-                    </button>
-                  </div>
-                )}
+            <div className="box" key={index}>
+              <div className="img">
+                <img src="./assets/images/group.jpg" alt="" />
               </div>
+              <div className="name">
+                <h4>{item.username}</h4>
+                <h5>{item.email}</h5>
+              </div>
+
+              {friends.includes(item.id + auth.currentUser.uid) ||
+              friends.includes(auth.currentUser.uid + item.id) ? (
+                <div className="button">
+                  <button>
+                    <FaUserFriends />
+                  </button>
+                </div>
+              ) : firendReq.includes(item.id + auth.currentUser.uid) ||
+                firendReq.includes(auth.currentUser.uid + item.id) ? (
+                <div className="button">
+                  <button>
+                    <BsPersonCheckFill />
+                  </button>
+                </div>
+              ) : (
+                <div className="button">
+                  <button
+                    onClick={() => {
+                      handleFriendRequest(item)
+                    }}
+                  >
+                    +
+                  </button>
+                </div>
+              )}
               <div className="divider"></div>
-            </>
+            </div>
           )
       )}
     </div>
