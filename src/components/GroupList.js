@@ -1,10 +1,15 @@
 import React from "react"
-import { Divider } from "@mui/material"
+import { Divider, Button } from "@mui/material"
 
 const GroupList = () => {
   return (
     <div className="grouplist">
-      <h2>Groups</h2>
+      <h2>
+        Group List
+        <div className="buton">
+          <Button variant="contained">Create group</Button>
+        </div>
+      </h2>
       <div className="box">
         <div className="img">
           <img src="./assets/images/group.jpg" alt="" />
@@ -14,11 +19,12 @@ const GroupList = () => {
           <h5>The best fishing gourp in Urla</h5>
         </div>
         <div className="button">
-          <button>Accept</button>
+          <button>Join</button>
         </div>
       </div>
 
       <div className="divider"></div>
+
       <div className="box">
         <div className="img">
           <img src="./assets/images/group.jpg" alt="" />

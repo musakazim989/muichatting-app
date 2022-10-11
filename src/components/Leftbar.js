@@ -32,7 +32,6 @@ const style = {
 const Leftbar = (props) => {
   const auth = getAuth()
   const storage = getStorage()
-
   const navigate = useNavigate()
 
   const [userName, setUserName] = useState("")
@@ -42,10 +41,11 @@ const Leftbar = (props) => {
   const [userId, setId] = useState(false)
   const [creationTime, setCreationTime] = useState("")
   const [imgphotoURL, setimgphotoURL] = useState()
-
   const [image, setImage] = useState()
   const [cropData, setCropData] = useState("#")
   const [cropper, setCropper] = useState()
+  const [loading, setLoaiding] = useState(false)
+  const [check, setCheck] = useState(false)
 
   const handleClose = () => {
     setOpen(false)
@@ -82,7 +82,7 @@ const Leftbar = (props) => {
         setimgphotoURL(user.photoURL)
       }
     })
-  }, [])
+  }, [check])
 
   // useEffect(() => {
   //   onAuthStateChanged(auth, (user) => {
@@ -92,8 +92,6 @@ const Leftbar = (props) => {
   // }, [])
 
   let handleProfileupload = (e) => {
-    console.log(e.target.files[0])
-
     e.preventDefault()
     let files
     if (e.dataTransfer) {
@@ -109,21 +107,24 @@ const Leftbar = (props) => {
   }
 
   const getCropData = () => {
+    setLoaiding(true)
     if (typeof cropper !== "undefined") {
       const storageRef = ref(storage, userId)
 
       const message4 = cropper.getCroppedCanvas().toDataURL()
       uploadString(storageRef, message4, "data_url").then((snapshot) => {
         console.log("Uploaded a data_url string!", snapshot)
-
+        setLoaiding(false)
+        setOpenImg(false)
+        setImage("")
         getDownloadURL(ref(storageRef)).then((url) => {
           console.log(url)
-
           updateProfile(auth.currentUser, {
             photoURL: url,
           })
             .then(() => {
               console.log("image uploded")
+              setCheck(!check)
             })
             .catch((error) => {
               console.log(error)
@@ -151,22 +152,18 @@ const Leftbar = (props) => {
 
       <div className="icons">
         <ul>
-          <li className={props.active == "home" ? "home" : "active"}>
+          <li className={props.active == "home" && "active"}>
             <Link to="/home">
               <MdOutlineHome className="icon " />
             </Link>
           </li>
-          <li className={props.active == "msg" ? "msg" : "active"}>
+          <li className={props.active == "msg" && "active"}>
             <BsChatDots className="icon" />
           </li>
-          <li
-            className={
-              props.active == "notification" ? "notification" : "active"
-            }
-          >
+          <li className={props.active == "notification" && "active"}>
             <FaRegBell className="icon" />
           </li>
-          <li className={props.active == "settings" ? "settings" : "active"}>
+          <li className={props.active == "settings" && "active"}>
             <MdOutlineSettings className="icon" />
           </li>
           <li>
@@ -242,8 +239,14 @@ const Leftbar = (props) => {
               }}
               guides={true}
             />
-            {image && (
-              <button onClick={getCropData}>Upload Profile Image</button>
+            {image ? (
+              loading ? (
+                <button>Uploading...</button>
+              ) : (
+                <button onClick={getCropData}>Upload Profile Image</button>
+              )
+            ) : (
+              ""
             )}
           </Typography>
         </Box>

@@ -36,23 +36,25 @@ const Friends = () => {
       )}
       {showFriends.map((item, index) => (
         <div key={index}>
-          <div className="box">
-            <div className="img">
-              <img src="./assets/images/group.jpg" alt="" />
-            </div>
-            <div className="name">
-              {auth.currentUser.uid == item.senderid ? (
-                <h4>{item.receivername}</h4>
-              ) : (
-                <h4>{item.sendername}</h4>
-              )}
-              <h5>The best fishing Group</h5>
-            </div>
-            <div className="button">
-              <p>{item.date}</p>
+          {console.log(item)}
+          <div>
+            <div className="box">
+              <div className="img">
+                <img src="./assets/images/group.jpg" alt="" />
+              </div>
+              <div className="name">
+                {auth.currentUser.uid == item.senderid ? (
+                  <h4>{item.receivername}</h4>
+                ) : (
+                  <h4>{item.sendername}</h4>
+                )}
+                <h5>The best fishing Group</h5>
+              </div>
+              <div className="button">
+                <p>{item.date}</p>
+              </div>
             </div>
           </div>
-
           <div className="divider"></div>
         </div>
       ))}
