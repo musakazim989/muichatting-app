@@ -328,8 +328,10 @@ h5 {
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-
 .grouplist .box {
   display: flex;
   justify-content: space-between;
