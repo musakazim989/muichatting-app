@@ -50,7 +50,7 @@ function App() {
         )}
         <Routes>
           <Route path="/" element={<Registration />} />
-          <Route path="login" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
         </Routes>
       </div>
