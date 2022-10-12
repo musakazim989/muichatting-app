@@ -73,7 +73,7 @@ const Leftbar = (props) => {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      console.log("this is", user)
+      console.log("this is", user.photoURL)
       if (user) {
         setUserName(user.displayName)
         setEmail(user.email)
@@ -118,7 +118,7 @@ const Leftbar = (props) => {
         setOpenImg(false)
         setImage("")
         getDownloadURL(ref(storageRef)).then((url) => {
-          console.log(url)
+          console.log("img url", url)
           updateProfile(auth.currentUser, {
             photoURL: url,
           })

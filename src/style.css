@@ -393,6 +393,13 @@ h5 {
   margin-top: 10px;
 }
 
+.modal-input {
+  display: flex;
+  flex-direction: column;
+  column-gap: 4;
+  margin-bottom: 20px;
+}
+
 .friendlist {
   height: 380px;
   padding: 17px 30px;
