@@ -127,6 +127,12 @@ h5 {
   font-size: 21px;
   font-weight: 700;
 }
+.registraion-part .p {
+  display: inline-block;
+  color: #eb0000;
+  font-size: 16px;
+  font-weight: 700;
+}
 
 .registraion-part .css-sghohy-MuiButtonBase-root-MuiButton-root {
   padding: 15px !important;

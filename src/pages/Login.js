@@ -204,9 +204,9 @@ const Login = () => {
                 Don't have an account? <Link to="/"> Sign Up </Link> here.
               </span>
               <br />
-              <span className="form-bottom-text" style={{ marginTop: "25px" }}>
-                Don't have an account? <Link to="/"> Sign Up </Link> here.
-              </span>
+              <p className="form-bottom-text p" style={{ marginTop: "5px" }}>
+                Reset password.
+              </p>
             </div>
           </div>
         </Grid>
