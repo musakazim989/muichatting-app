@@ -158,7 +158,9 @@ const Leftbar = (props) => {
             </Link>
           </li>
           <li className={props.active == "msg" && "active"}>
-            <BsChatDots className="icon" />
+            <Link to="/message">
+              <BsChatDots className="icon" />
+            </Link>
           </li>
           <li className={props.active == "notification" && "active"}>
             <FaRegBell className="icon" />

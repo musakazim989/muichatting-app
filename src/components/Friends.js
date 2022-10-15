@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react"
 import { getDatabase, ref, onValue } from "firebase/database"
 import { Alert } from "@mui/material"
 import { getAuth } from "firebase/auth"
+import { BiMessageAltDetail } from "react-icons/bi"
 
-const Friends = () => {
+const Friends = (props) => {
   const auth = getAuth()
   const db = getDatabase()
   const [showFriends, setFriendShow] = useState([])
@@ -36,7 +37,6 @@ const Friends = () => {
       )}
       {showFriends.map((item, index) => (
         <div key={index}>
-          {console.log(item)}
           <div>
             <div className="box">
               <div className="img">
@@ -51,7 +51,13 @@ const Friends = () => {
                 <h5>The best fishing Group</h5>
               </div>
               <div className="button">
-                <p>{item.date}</p>
+                {props.item == "date" ? (
+                  <p>{item.date}</p>
+                ) : (
+                  <button>
+                    <BiMessageAltDetail />
+                  </button>
+                )}
               </div>
             </div>
           </div>

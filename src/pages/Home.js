@@ -26,6 +26,7 @@ const Home = () => {
       }
     })
   }, [])
+
   return (
     <>
       <Grid container spacing={2}>
@@ -38,7 +39,7 @@ const Home = () => {
           <FriendRequest />
         </Grid>
         <Grid item xs={3}>
-          <Friends />
+          <Friends item="date" />
           <MyGroup />
         </Grid>
         <Grid item xs={3}>

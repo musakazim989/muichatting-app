@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { TextField, Button } from "@mui/material"
+import { TextField, Button, Alert } from "@mui/material"
 import { getAuth, sendPasswordResetEmail } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 
@@ -7,18 +7,24 @@ const ResetPassword = () => {
   const auth = getAuth()
   const navigate = useNavigate()
 
-  const [email, setEmail] = useState()
+  const [email, setEmail] = useState("")
+  const [error, setError] = useState("")
 
   let handlePasswordReset = () => {
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        navigate("/login")
+        navigate("/login", {
+          state: { msg: "Please check your email and reset password." },
+        })
 
         console.log("email send")
       })
       .catch((error) => {
         const errorCode = error.code
         const errorMessage = error.message
+        if (errorCode.includes("auth/invalid-email")) {
+          setError("Invalid email!")
+        }
 
         console.log(errorCode)
         // ..
@@ -45,6 +51,14 @@ const ResetPassword = () => {
           >
             Submit
           </Button>
+          {error && (
+            <Alert
+              severity="error"
+              style={{ width: "355px", marginTop: "20px" }}
+            >
+              {error}
+            </Alert>
+          )}
         </div>
       </div>
     </div>

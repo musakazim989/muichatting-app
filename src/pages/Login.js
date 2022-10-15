@@ -1,6 +1,15 @@
-import React, { useState } from "react"
-import { Grid, TextField, Button, Alert } from "@mui/material"
-import { Link, useNavigate } from "react-router-dom"
+import React, { useEffect, useState } from "react"
+import {
+  Grid,
+  TextField,
+  Button,
+  Alert,
+  IconButton,
+  Box,
+  Collapse,
+} from "@mui/material"
+import { MdClose } from "react-icons/md"
+import { Link, useNavigate, useLocation } from "react-router-dom"
 import { VscEye, VscEyeClosed } from "react-icons/vsc"
 import { FcGoogle } from "react-icons/fc"
 import { FaFacebook } from "react-icons/fa"
@@ -15,6 +24,10 @@ import {
 
 const Login = () => {
   const auth = getAuth()
+  const provider = new GoogleAuthProvider()
+  let navigate = useNavigate()
+  const location = useLocation()
+
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [emailerror, setEmailError] = useState("")
@@ -22,13 +35,10 @@ const Login = () => {
   const [passErrdigits, setpassErrdigits] = useState("")
   const [checkPass, setCheckPass] = useState(false)
   const [emailVerify, setEmailVerify] = useState("")
-  const [passErrMsg, setpassErrMsg] = useState("")
-  const [passmatcherr, setPassmatcherr] = useState("")
   const [emailErrMsg, setEmailErrMsg] = useState("")
   const [passwordErrMsg, setPasswordErrMsg] = useState("")
-
-  const provider = new GoogleAuthProvider()
-  let navigate = useNavigate()
+  const [open, setOpen] = useState(true)
+  const [mssg, setMssg] = useState("")
 
   let handleCheckPass = () => {
     setCheckPass(!checkPass)
@@ -51,8 +61,6 @@ const Login = () => {
             if (user.emailVerified === false) {
               setEmailVerify("Please check your email for verification.")
             } else {
-              const uid = user.uid
-              // console.log(userCredential)
               navigate("/home")
             }
           })
@@ -72,12 +80,12 @@ const Login = () => {
   let handleGoogleSignin = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result)
-        const token = credential.accessToken
-        // The signed-in user info.
-        const user = result.user
-        // ...
+        // // This gives you a Google Access Token. You can use it to access the Google API.
+        // const credential = GoogleAuthProvider.credentialFromResult(result)
+        // const token = credential.accessToken
+        // // The signed-in user info.
+        // const user = result.user
+        // // ...
         navigate("/home")
       })
       .catch((error) => {
@@ -97,27 +105,21 @@ const Login = () => {
     const auth = getAuth()
     signInWithPopup(auth, provider)
       .then((result) => {
-        // The signed-in user info.
-        const user = result.user
-
-        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-        const credential = FacebookAuthProvider.credentialFromResult(result)
-        const accessToken = credential.accessToken
-
         navigate("/home")
       })
       .catch((error) => {
-        // Handle Errors here.
         const errorCode = error.code
-        const errorMessage = error.message
-        // The email of the user's account used.
-        const email = error.customData.email
-        // The AuthCredential type that was used.
-        const credential = FacebookAuthProvider.credentialFromError(error)
-
-        // ...
       })
   }
+
+  console.log(location.state)
+
+  // useEffect(() => {
+  //   if (location.state !== null) {
+  //     setMssg(location.state.msg)
+  //     setOpen(true)
+  //   }
+  // }, [])
 
   return (
     <section className="registraion-part login-part">
@@ -127,6 +129,38 @@ const Login = () => {
             <div className="left">
               <h2>Get Started with registration.</h2>
               <p>Welcome : )</p>
+              {location.state && (
+                <Box sx={{ width: "100%", marginTop: "20px" }}>
+                  <Collapse in={open}>
+                    <Alert
+                      severity="warning"
+                      action={
+                        <IconButton
+                          aria-label="close"
+                          color="inherit"
+                          size="small"
+                          onClick={() => {
+                            setOpen(false)
+                          }}
+                        >
+                          <MdClose fontSize="inherit" />
+                        </IconButton>
+                      }
+                      sx={{ mb: 2 }}
+                    >
+                      {/* {mssg} */}
+                      {location.state.msg}
+                    </Alert>
+                  </Collapse>
+                </Box>
+
+                // <Alert
+                //   severity="warning"
+                //   style={{ width: "355px", marginTop: "20px" }}
+                // >
+                //   {location.state.msg}
+                // </Alert>
+              )}
               <div className="loginoption">
                 <div className="option" onClick={handleGoogleSignin}>
                   <FcGoogle className="option-icon google" /> Login with Google
@@ -205,7 +239,10 @@ const Login = () => {
               </span>
               <br />
               <p className="form-bottom-text p" style={{ marginTop: "5px" }}>
-                Froget password? <Link to="/resetpassword">Click here.</Link>
+                Froget password?{" "}
+                <Link to="/resetpassword" className="a">
+                  Click here.
+                </Link>
               </p>
             </div>
           </div>

@@ -124,9 +124,12 @@ h5 {
 
 .registraion-part .form-bottom-text a {
   display: inline-block;
-  color: #eb0000;
+  color: #ef6b39;
   font-size: 21px;
   font-weight: 700;
+}
+.registraion-part .form-bottom-text .a {
+  font-size: 16px;
 }
 
 .registraion-part .p {
@@ -553,4 +556,18 @@ h5 {
   font-weight: 400;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.joingroup .box .button button {
+  font-family: "Nunito", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  background: #3d0e88;
+  color: #fff;
+  padding: 5px 16px;
+  border-radius: 5px;
+  border: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

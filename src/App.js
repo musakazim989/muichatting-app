@@ -6,6 +6,7 @@ import Home from "./pages/Home"
 import { MdDarkMode, MdOutlineDarkMode } from "react-icons/md"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import ResetPassword from "./components/ResetPassword"
+import Message from "./pages/Message"
 function App() {
   const auth = getAuth()
   const [dl, setDl] = useState(false)
@@ -13,7 +14,6 @@ function App() {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      console.log(user)
       if (user) {
         setShow(true)
       } else {
@@ -54,6 +54,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
+          <Route path="/message" element={<Message />} />
         </Routes>
       </div>
     </>
