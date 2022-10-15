@@ -119,6 +119,7 @@ h5 {
   color: #11175d;
   font-size: 21px;
   font-weight: 700;
+  font-family: "Nunito", sans-serif;
 }
 
 .registraion-part .form-bottom-text a {
@@ -127,11 +128,24 @@ h5 {
   font-size: 21px;
   font-weight: 700;
 }
+
 .registraion-part .p {
   display: inline-block;
-  color: #eb0000;
   font-size: 16px;
   font-weight: 700;
+  font-family: "Nunito", sans-serif;
+}
+
+.registraion-part .form-bottom-text .button {
+  font-family: "Nunito", sans-serif;
+  display: inline-block;
+  color: #eb0000;
+  font-size: 21px;
+  font-weight: 700;
+  background: none;
+  border: none;
+  padding: 0 10px;
+  cursor: pointer;
 }
 
 .registraion-part .css-sghohy-MuiButtonBase-root-MuiButton-root {
@@ -504,4 +518,9 @@ h5 {
   flex-direction: column;
   align-items: center;
   row-gap: 3px;
+}
+
+.forgotpassword {
+  background: #3d0e88;
+  height: 100vh;
 }

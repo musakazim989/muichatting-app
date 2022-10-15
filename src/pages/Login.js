@@ -11,6 +11,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   FacebookAuthProvider,
+  sendPasswordResetEmail,
 } from "firebase/auth"
 
 const Login = () => {
@@ -119,6 +120,19 @@ const Login = () => {
       })
   }
 
+  let handleFrogotPassword = () => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        // Password reset email sent!
+        // ..
+      })
+      .catch((error) => {
+        const errorCode = error.code
+        const errorMessage = error.message
+        // ..
+      })
+  }
+
   return (
     <section className="registraion-part login-part">
       <Grid container spacing={2}>
@@ -204,8 +218,12 @@ const Login = () => {
                 Don't have an account? <Link to="/"> Sign Up </Link> here.
               </span>
               <br />
-              <p className="form-bottom-text p" style={{ marginTop: "5px" }}>
-                Reset password.
+              <p
+                onClick={handleFrogotPassword}
+                className="form-bottom-text p"
+                style={{ marginTop: "5px" }}
+              >
+                Froget password? <Link to="/resetpassword">Click here.</Link>
               </p>
             </div>
           </div>
