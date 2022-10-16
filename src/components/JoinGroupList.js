@@ -5,8 +5,7 @@ import { BiMessageAltDetail } from "react-icons/bi"
 const JoinGroupList = () => {
   return (
     <div className="grouplist joingroup">
-      <h2>Group List</h2>
-
+      <h2>Join Group</h2>
       <>
         <div className="box">
           <div className="img">

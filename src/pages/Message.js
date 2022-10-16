@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react"
 import { Grid } from "@mui/material"
 import Leftbar from "../components/Leftbar"
 import Search from "../components/Search"
-import FriendRequest from "../components/FriendRequest"
 import Friends from "../components/Friends"
-import Userlist from "../components/Userlist"
-import MyGroup from "../components/MyGroup"
-import BlockUser from "../components/BlockUser"
 import JoinGroupList from "../components/JoinGroupList"
+import Chat from "../components/Chat"
 
 const Message = () => {
   return (
@@ -21,7 +18,7 @@ const Message = () => {
         <Friends item="button" />
       </Grid>
       <Grid item xs={6}>
-        <Friends />
+        <Chat />
       </Grid>
     </Grid>
   )

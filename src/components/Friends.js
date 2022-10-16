@@ -54,7 +54,13 @@ const Friends = (props) => {
                 {props.item == "date" ? (
                   <p>{item.date}</p>
                 ) : (
-                  <button>
+                  <button
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
                     <BiMessageAltDetail />
                   </button>
                 )}

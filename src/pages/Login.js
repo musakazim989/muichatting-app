@@ -112,14 +112,12 @@ const Login = () => {
       })
   }
 
-  console.log(location.state)
-
-  // useEffect(() => {
-  //   if (location.state !== null) {
-  //     setMssg(location.state.msg)
-  //     setOpen(true)
-  //   }
-  // }, [])
+  useEffect(() => {
+    if (location.state !== null) {
+      setMssg(location.state.msg)
+      setOpen(true)
+    }
+  }, [])
 
   return (
     <section className="registraion-part login-part">
@@ -148,8 +146,8 @@ const Login = () => {
                       }
                       sx={{ mb: 2 }}
                     >
-                      {/* {mssg} */}
-                      {location.state.msg}
+                      {mssg}
+                      {/* {location.state.msg} */}
                     </Alert>
                   </Collapse>
                 </Box>

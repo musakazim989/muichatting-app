@@ -571,3 +571,102 @@ h5 {
   justify-content: center;
   align-items: center;
 }
+
+.chat {
+  -webkit-box-shadow: 0px 5px 21px 0px rgba(0, 0, 0, 0.34);
+  -moz-box-shadow: 0px 5px 21px 0px rgba(0, 0, 0, 0.34);
+  box-shadow: 0px 5px 21px 0px rgba(0, 0, 0, 0.34);
+  border-radius: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 17px 45px;
+  margin-top: 40px;
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.chat .top-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  padding-bottom: 25px;
+}
+.chat .chatarea {
+  height: 70vh;
+  overflow-y: scroll;
+  padding: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+.chat .info {
+  display: flex;
+  align-items: center;
+  width: 90%;
+}
+
+.chat .dots {
+  width: 10%;
+  text-align: right;
+}
+
+.chat .img {
+  position: relative;
+  filter: drop-shadow(0 0 0.35rem rgba(0, 0, 0, 0.5));
+}
+.chat .img img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.chat .img .round {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: green;
+  border: 2px solid gray;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.chat .identity {
+  margin-left: 23px;
+}
+
+.chat .identity h3 {
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.chat .msg {
+  display: flex;
+  position: relative;
+  margin-top: 50px;
+}
+
+.chat .msg p {
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-block;
+  padding: 13px 52px;
+  border-radius: 10px;
+}
+.chat .msg .date {
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.25);
+  position: absolute;
+  bottom: -26px;
+}
+
+.chat .chatimage {
+  padding: 10px;
+}
+
+.chat .chatimage img {
+  width: 300px;
+}
