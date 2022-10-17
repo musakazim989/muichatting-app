@@ -1,5 +1,7 @@
 import React from "react"
 import { BiDotsVerticalRounded } from "react-icons/bi"
+import { IoIosSend } from "react-icons/io"
+import { AiOutlineCamera } from "react-icons/ai"
 
 const Chat = () => {
   return (
@@ -26,12 +28,14 @@ const Chat = () => {
             Today, 2:01pm
           </div>
         </div>
+
         <div className="msg" style={alignright}>
           <p style={msgsend}>Hey there!</p>
           <div className="date" style={dateSend}>
             Today, 2:01pm
           </div>
         </div>
+
         <div className="msg" style={alignleft}>
           <p style={msgreceive}>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi nemo
@@ -42,24 +46,28 @@ const Chat = () => {
             Today, 2:01pm
           </div>
         </div>
+
         <div className="msg" style={alignright}>
           <p style={msgsend}>Hey there!</p>
           <div className="date" style={dateSend}>
             Today, 2:01pm
           </div>
         </div>
+
         <div className="msg" style={alignright}>
           <p style={msgsend}>Hey there!</p>
           <div className="date" style={dateSend}>
             Today, 2:01pm
           </div>
         </div>
+
         <div className="msg" style={alignleft}>
           <p style={msgreceive}>Hey there!</p>
           <div className="date" style={dateReceive}>
             Today, 2:01pm
           </div>
         </div>
+
         <div className="msg" style={alignright}>
           <p style={msgsend}>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat,
@@ -69,12 +77,14 @@ const Chat = () => {
             Today, 2:01pm
           </div>
         </div>
+
         <div className="msg" style={alignright}>
           <p style={msgsend}>Hey there!</p>
           <div className="date" style={dateSend}>
             Today, 2:01pm
           </div>
         </div>
+
         <div className="msg" style={alignright}>
           <div style={msgsend} className="chatimage">
             <img src="assets/images/login.jpg" alt="" />
@@ -91,6 +101,15 @@ const Chat = () => {
           <div className="date" style={dateReceive}>
             Today, 2:01pm
           </div>
+        </div>
+      </div>
+      <div className="msg-box">
+        <div className="msgwrite">
+          <input type="text" placeholder="Message" />
+          <AiOutlineCamera className="camera" />
+          <button>
+            <IoIosSend className="msg-icon" />
+          </button>
         </div>
       </div>
     </div>

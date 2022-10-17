@@ -3,11 +3,17 @@ import { getDatabase, ref, onValue } from "firebase/database"
 import { Alert } from "@mui/material"
 import { getAuth } from "firebase/auth"
 import { BiMessageAltDetail } from "react-icons/bi"
+import { useSelector, useDispatch } from "react-redux"
+import { activeChat } from "./slice/activeChatSlice"
 
 const Friends = (props) => {
   const auth = getAuth()
   const db = getDatabase()
   const [showFriends, setFriendShow] = useState([])
+  const dispatch = useDispatch()
+
+  const chatmsg = useSelector((state) => state.activeChat.active)
+  console.log(chatmsg)
 
   useEffect(() => {
     const starCountRef = ref(db, "friends/")
@@ -36,7 +42,7 @@ const Friends = (props) => {
         <Alert severity="info">You have no friends.</Alert>
       )}
       {showFriends.map((item, index) => (
-        <div key={index}>
+        <div key={index} onClick={dispatch(activeChat(item))}>
           <div>
             <div className="box">
               <div className="img">

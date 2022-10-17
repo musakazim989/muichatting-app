@@ -582,7 +582,7 @@ h5 {
   padding: 17px 45px;
   margin-top: 40px;
   height: 100vh;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 
 .chat .top-area {
@@ -644,6 +644,7 @@ h5 {
   display: flex;
   position: relative;
   margin-top: 50px;
+  margin-bottom: 25px;
 }
 
 .chat .msg p {
@@ -669,4 +670,45 @@ h5 {
 
 .chat .chatimage img {
   width: 300px;
+}
+
+.msgwrite {
+  position: relative;
+}
+.msgwrite input {
+  width: 80%;
+  background: #f1f1f1;
+  border: 0;
+  padding: 15px;
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgb(0, 0, 0);
+  border-radius: 10px;
+  margin-top: 15px;
+}
+
+.msgwrite button {
+  background: #3d0e88;
+  color: #fff;
+  padding: 10px;
+  border: 0;
+  border-radius: 10px;
+  margin-left: 20px;
+  position: relative;
+  top: 3px;
+}
+
+.msgwrite .msg-icon {
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.msgwrite .camera {
+  position: absolute;
+  top: 28px;
+  right: 113px;
+  font-size: 22px;
 }
