@@ -2,8 +2,11 @@ import React from "react"
 import { BiDotsVerticalRounded } from "react-icons/bi"
 import { IoIosSend } from "react-icons/io"
 import { AiOutlineCamera } from "react-icons/ai"
+import { useSelector, useDispatch } from "react-redux"
 
 const Chat = () => {
+  const user = useSelector((state) => state.activeChat.active)
+  console.log(user)
   return (
     <div className=" chat">
       <div className="top-area">
@@ -13,7 +16,7 @@ const Chat = () => {
             <div className="round"></div>
           </picture>
           <div className="identity">
-            <h3>Musa Kazim</h3>
+            <h3>{user.name}</h3>
             <p>online</p>
           </div>
         </div>

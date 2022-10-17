@@ -33,14 +33,14 @@ const MyGroup = () => {
         (item) =>
           item.adminid == auth.currentUser.uid && (
             <>
+              {console.log(item)}
               <div className="box">
                 <div className="img">
                   <img src="./assets/images/group.jpg" alt="" />
                 </div>
                 <div className="name">
-                  <h4>MERN</h4>
-
-                  <h5>The best fishing Group</h5>
+                  <h4>{item.groupname}</h4>
+                  <h5>{item.grouptagline}</h5>
                 </div>
                 <div className="button">
                   <div className="info">

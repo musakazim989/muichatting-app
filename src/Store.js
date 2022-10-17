@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit"
-import activeChatSlice from "./components/slice/activeChatSlice"
+import activeChatSlice from "./slice/activeChatSlice"
 
 export const store = configureStore({
   reducer: {

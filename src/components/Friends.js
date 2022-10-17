@@ -4,16 +4,13 @@ import { Alert } from "@mui/material"
 import { getAuth } from "firebase/auth"
 import { BiMessageAltDetail } from "react-icons/bi"
 import { useSelector, useDispatch } from "react-redux"
-import { activeChat } from "./slice/activeChatSlice"
+import { activeChat } from "../slice/activeChatSlice"
 
 const Friends = (props) => {
   const auth = getAuth()
   const db = getDatabase()
   const [showFriends, setFriendShow] = useState([])
   const dispatch = useDispatch()
-
-  const chatmsg = useSelector((state) => state.activeChat.active)
-  console.log(chatmsg)
 
   useEffect(() => {
     const starCountRef = ref(db, "friends/")
@@ -31,6 +28,19 @@ const Friends = (props) => {
     })
   }, [])
 
+  let handleActiveChat = (item) => {
+    let userinfo = {}
+    if (item.receiverid == auth.currentUser.uid) {
+      userinfo.id = item.senderid
+      userinfo.name = item.sendername
+    } else {
+      userinfo.id = item.receiverid
+      userinfo.name = item.receivername
+    }
+
+    dispatch(activeChat(userinfo))
+  }
+
   return (
     <div className="grouplist friendlist ">
       {showFriends.length > 1 ? (
@@ -42,36 +52,32 @@ const Friends = (props) => {
         <Alert severity="info">You have no friends.</Alert>
       )}
       {showFriends.map((item, index) => (
-        <div key={index} onClick={dispatch(activeChat(item))}>
-          <div>
-            <div className="box">
-              <div className="img">
-                <img src="./assets/images/group.jpg" alt="" />
-              </div>
-              <div className="name">
-                {auth.currentUser.uid == item.senderid ? (
-                  <h4>{item.receivername}</h4>
-                ) : (
-                  <h4>{item.sendername}</h4>
-                )}
-                <h5>The best fishing Group</h5>
-              </div>
-              <div className="button">
-                {props.item == "date" ? (
-                  <p>{item.date}</p>
-                ) : (
-                  <button
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <BiMessageAltDetail />
-                  </button>
-                )}
-              </div>
-            </div>
+        <div className="box" key={index} onClick={() => handleActiveChat(item)}>
+          <div className="img">
+            <img src="./assets/images/group.jpg" alt="" />
+          </div>
+          <div className="name">
+            {auth.currentUser.uid == item.senderid ? (
+              <h4>{item.receivername}</h4>
+            ) : (
+              <h4>{item.sendername}</h4>
+            )}
+            <h5>The best fishing Group</h5>
+          </div>
+          <div className="button">
+            {props.item == "date" ? (
+              <p>{item.date}</p>
+            ) : (
+              <button
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <BiMessageAltDetail />
+              </button>
+            )}
           </div>
           <div className="divider"></div>
         </div>

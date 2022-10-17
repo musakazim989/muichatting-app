@@ -39,8 +39,7 @@ const GroupList = () => {
   const [groupName, setGroupname] = useState("")
   const [groupTagline, setGroupTagline] = useState("")
   const [adminGroupInfo, setAdminGroupInfo] = useState([])
-
-  console.log(adminGroupInfo)
+  const [check, setCheck] = useState(false)
 
   let handleModaImg = () => {
     setOpenImg(true)
@@ -67,7 +66,7 @@ const GroupList = () => {
       })
       setAdminGroupInfo(groupArr)
     })
-  }, [])
+  }, [check])
 
   let handleCreateGroup = () => {
     setLoaiding(true)
@@ -81,7 +80,7 @@ const GroupList = () => {
       .then(() => {
         setLoaiding(false)
         setOpenImg(false)
-        console.log("salkdgh")
+        setCheck(!check)
       })
       .catch((error) => console.log(error))
   }
@@ -112,7 +111,6 @@ const GroupList = () => {
         (item) =>
           item.adminid != auth.currentUser.uid && (
             <>
-              {console.log("my", item)}
               <div className="box">
                 <div className="img">
                   <img src="assets/images/group.jpg" alt="" />

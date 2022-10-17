@@ -73,7 +73,6 @@ const Leftbar = (props) => {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      console.log("this is", user.photoURL)
       if (user) {
         setUserName(user.displayName)
         setEmail(user.email)
