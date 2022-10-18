@@ -5,6 +5,7 @@ import Search from "../components/Search"
 import Friends from "../components/Friends"
 import JoinGroupList from "../components/JoinGroupList"
 import Chat from "../components/Chat"
+import FriendListMsg from "../components/FriendListMsg"
 
 const Message = () => {
   return (
@@ -15,7 +16,7 @@ const Message = () => {
       <Grid item xs={4}>
         <Search />
         <JoinGroupList />
-        <Friends item="button" />
+        <FriendListMsg item="button" />
       </Grid>
       <Grid item xs={6}>
         <Chat />

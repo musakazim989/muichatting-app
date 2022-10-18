@@ -6,7 +6,7 @@ import { BiMessageAltDetail } from "react-icons/bi"
 import { useSelector, useDispatch } from "react-redux"
 import { activeChat } from "../slice/activeChatSlice"
 
-const Friends = (props) => {
+const FriendListMsg = (props) => {
   const auth = getAuth()
   const db = getDatabase()
   const [showFriends, setFriendShow] = useState([])
@@ -42,7 +42,7 @@ const Friends = (props) => {
   }
 
   return (
-    <div className="grouplist friendlist ">
+    <div className="grouplist friendlist " style={{ height: "292px" }}>
       {showFriends.length > 1 ? (
         <h2>{showFriends.length} Friends</h2>
       ) : (
@@ -64,7 +64,7 @@ const Friends = (props) => {
             )}
             <h5>The best fishing Group</h5>
           </div>
-          <div className="button2">
+          <div className="button">
             {props.item == "date" ? (
               <p>{item.date}</p>
             ) : (
@@ -86,4 +86,4 @@ const Friends = (props) => {
   )
 }
 
-export default Friends
+export default FriendListMsg
