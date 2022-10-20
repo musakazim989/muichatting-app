@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { BiDotsVerticalRounded } from "react-icons/bi"
 import { IoIosSend } from "react-icons/io"
 import { AiOutlineCamera } from "react-icons/ai"
@@ -6,7 +6,11 @@ import { useSelector, useDispatch } from "react-redux"
 
 const Chat = () => {
   const user = useSelector((state) => state.activeChat.active)
-  console.log(user)
+  const [msg, setMsg] = useState("")
+
+  let handleMessage = (e) => {
+    setMsg(e.target.value)
+  }
   return (
     <div className=" chat">
       <div className="top-area">
@@ -108,7 +112,11 @@ const Chat = () => {
       </div>
       <div className="msg-box">
         <div className="msgwrite">
-          <input type="text" placeholder="Message" />
+          <input
+            onTouchStart={handleMessage}
+            type="text"
+            placeholder="Message"
+          />
           <AiOutlineCamera className="camera" />
           <button>
             <IoIosSend className="msg-icon" />
