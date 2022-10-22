@@ -8,6 +8,7 @@ export const activeChatClice = createSlice({
   reducers: {
     activeChat: (state, action) => {
       state.active = action.payload
+      console.log(action)
     },
   },
 })

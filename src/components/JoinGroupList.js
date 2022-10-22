@@ -38,6 +38,7 @@ const JoinGroupList = () => {
 
   let handleActiveGroupChat = (item) => {
     let userinfo = {
+      status: "group",
       name: item.groupname,
       groupid: item.key,
       groupadminid: item.adminid,
@@ -58,8 +59,8 @@ const JoinGroupList = () => {
     <div className="grouplist joingroup">
       <h2>Join Group</h2>
       <>
-        {adminGroupInfo.map((item) => (
-          <>
+        {adminGroupInfo.map((item, index) => (
+          <div key={index}>
             <div className="box" onClick={() => handleActiveGroupChat(item)}>
               <div className="img">
                 <img src="assets/images/group.jpg" alt="" />
@@ -78,7 +79,7 @@ const JoinGroupList = () => {
               </div>
             </div>
             <div className="divider"></div>
-          </>
+          </div>
         ))}
 
         {/* <div className="box">

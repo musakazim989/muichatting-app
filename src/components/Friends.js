@@ -29,16 +29,17 @@ const Friends = (props) => {
   }, [])
 
   let handleActiveChat = (item) => {
-    let userinfo = {}
-    if (item.receiverid == auth.currentUser.uid) {
-      userinfo.id = item.senderid
-      userinfo.name = item.sendername
-    } else {
-      userinfo.id = item.receiverid
-      userinfo.name = item.receivername
-    }
-
-    dispatch(activeChat(userinfo))
+    // let userinfo = {}
+    // if (item.receiverid == auth.currentUser.uid) {
+    //   userinfo.status = "single"
+    //   userinfo.id = item.senderid
+    //   userinfo.name = item.sendername
+    // } else {
+    //   userinfo.status = "single"
+    //   userinfo.id = item.receiverid
+    //   userinfo.name = item.receivername
+    // }
+    // dispatch(activeChat(userinfo))
   }
 
   return (
@@ -63,6 +64,7 @@ const Friends = (props) => {
               <h4>{item.sendername}</h4>
             )}
             <h5>The best fishing Group</h5>
+            <h5>{item.senderid}</h5>
           </div>
           <div className="button2">
             {props.item == "date" ? (

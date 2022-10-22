@@ -11,6 +11,13 @@ const Chat = () => {
   let handleMessage = (e) => {
     setMsg(e.target.value)
   }
+
+  let handleMsgSend = () => {
+    if (msg !== "") {
+      console.log("first", msg)
+    }
+  }
+
   return (
     <div className=" chat">
       <div className="top-area">
@@ -112,13 +119,9 @@ const Chat = () => {
       </div>
       <div className="msg-box">
         <div className="msgwrite">
-          <input
-            onTouchStart={handleMessage}
-            type="text"
-            placeholder="Message"
-          />
+          <input onChange={handleMessage} type="text" placeholder="Message" />
           <AiOutlineCamera className="camera" />
-          <button>
+          <button onClick={handleMsgSend}>
             <IoIosSend className="msg-icon" />
           </button>
         </div>
