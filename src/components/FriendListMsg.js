@@ -31,9 +31,11 @@ const FriendListMsg = (props) => {
   let handleActiveChat = (item) => {
     let userinfo = {}
     if (item.receiverid == auth.currentUser.uid) {
+      userinfo.status = "single"
       userinfo.id = item.senderid
       userinfo.name = item.sendername
     } else {
+      userinfo.status = "single"
       userinfo.id = item.receiverid
       userinfo.name = item.receivername
     }

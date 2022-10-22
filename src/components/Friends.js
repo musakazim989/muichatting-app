@@ -28,20 +28,6 @@ const Friends = (props) => {
     })
   }, [])
 
-  let handleActiveChat = (item) => {
-    // let userinfo = {}
-    // if (item.receiverid == auth.currentUser.uid) {
-    //   userinfo.status = "single"
-    //   userinfo.id = item.senderid
-    //   userinfo.name = item.sendername
-    // } else {
-    //   userinfo.status = "single"
-    //   userinfo.id = item.receiverid
-    //   userinfo.name = item.receivername
-    // }
-    // dispatch(activeChat(userinfo))
-  }
-
   return (
     <div className="grouplist friendlist ">
       {showFriends.length > 1 ? (
@@ -53,7 +39,7 @@ const Friends = (props) => {
         <Alert severity="info">You have no friends.</Alert>
       )}
       {showFriends.map((item, index) => (
-        <div className="box" key={index} onClick={() => handleActiveChat(item)}>
+        <div className="box" key={index}>
           <div className="img">
             <img src="./assets/images/group.jpg" alt="" />
           </div>
