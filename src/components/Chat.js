@@ -1,22 +1,52 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { BiDotsVerticalRounded } from "react-icons/bi"
 import { IoIosSend } from "react-icons/io"
 import { AiOutlineCamera } from "react-icons/ai"
 import { useSelector, useDispatch } from "react-redux"
+import { getAuth, updateProfile } from "firebase/auth"
+import { getDatabase, ref, set, push, onValue } from "firebase/database"
 
 const Chat = () => {
+  const auth = getAuth()
+  const db = getDatabase()
   const user = useSelector((state) => state.activeChat.active)
   const [msg, setMsg] = useState("")
+  const [msgList, setMsgList] = useState([])
+  const [check, setCheck] = useState(false)
 
   let handleMessage = (e) => {
     setMsg(e.target.value)
   }
 
   let handleMsgSend = () => {
-    if (msg !== "") {
-      console.log("first", msg)
+    if (user.status !== undefined) {
+      if (msg !== "") {
+        if (user.status == "group") {
+          console.log("group")
+        } else {
+          set(push(ref(db, "singlemsg")), {
+            whosendid: auth.currentUser.uid,
+            whosendname: auth.currentUser.displayName,
+            whoreceived: user.id,
+            whoreceivedname: user.name,
+            msg: msg,
+          }).then(() => {
+            setCheck(!check)
+          })
+        }
+      }
     }
   }
+
+  useEffect(() => {
+    onValue(ref(db, "singlemsg"), (snapshot) => {
+      let arr = []
+      snapshot.forEach((item) => {
+        arr.push(item.val())
+      })
+      setMsgList(arr)
+    })
+  }, [])
 
   return (
     <div className=" chat">
@@ -36,87 +66,26 @@ const Chat = () => {
         </div>
       </div>
       <div className="chatarea">
-        <div className="msg" style={alignright}>
-          <p style={msgsend}>Hey there!</p>
-          <div className="date" style={dateSend}>
-            Today, 2:01pm
-          </div>
-        </div>
-
-        <div className="msg" style={alignright}>
-          <p style={msgsend}>Hey there!</p>
-          <div className="date" style={dateSend}>
-            Today, 2:01pm
-          </div>
-        </div>
-
-        <div className="msg" style={alignleft}>
-          <p style={msgreceive}>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi nemo
-            sequi fuga obcaecati inventore maxime numquam sunt molestias totam
-            quae.
-          </p>
-          <div className="date" style={dateReceive}>
-            Today, 2:01pm
-          </div>
-        </div>
-
-        <div className="msg" style={alignright}>
-          <p style={msgsend}>Hey there!</p>
-          <div className="date" style={dateSend}>
-            Today, 2:01pm
-          </div>
-        </div>
-
-        <div className="msg" style={alignright}>
-          <p style={msgsend}>Hey there!</p>
-          <div className="date" style={dateSend}>
-            Today, 2:01pm
-          </div>
-        </div>
-
-        <div className="msg" style={alignleft}>
-          <p style={msgreceive}>Hey there!</p>
-          <div className="date" style={dateReceive}>
-            Today, 2:01pm
-          </div>
-        </div>
-
-        <div className="msg" style={alignright}>
-          <p style={msgsend}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat,
-            porro?
-          </p>
-          <div className="date" style={dateSend}>
-            Today, 2:01pm
-          </div>
-        </div>
-
-        <div className="msg" style={alignright}>
-          <p style={msgsend}>Hey there!</p>
-          <div className="date" style={dateSend}>
-            Today, 2:01pm
-          </div>
-        </div>
-
-        <div className="msg" style={alignright}>
-          <div style={msgsend} className="chatimage">
-            <img src="assets/images/login.jpg" alt="" />
-          </div>
-          <div className="date" style={dateSend}>
-            Today, 2:01pm
-          </div>
-        </div>
-
-        <div className="msg" style={alignleft}>
-          <div style={msgreceive} className="chatimage">
-            <img src="assets/images/login.jpg" alt="" />
-          </div>
-          <div className="date" style={dateReceive}>
-            Today, 2:01pm
-          </div>
-        </div>
+        {msgList.map((item, index) =>
+          item.whosendid == auth.currentUser.uid ? (
+            <div className="msg" style={alignright}>
+              {console.log(item)}
+              <p style={msgsend}>{item.msg}</p>
+              <div className="date" style={dateSend}>
+                Today, 2:01pm
+              </div>
+            </div>
+          ) : (
+            <div className="msg" style={alignleft}>
+              <p style={msgreceive}>{item.msg}</p>
+              <div className="date" style={dateReceive}>
+                Today, 2:01pm
+              </div>
+            </div>
+          )
+        )}
       </div>
+
       <div className="msg-box">
         <div className="msgwrite">
           <input onChange={handleMessage} type="text" placeholder="Message" />
