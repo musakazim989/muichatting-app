@@ -43,11 +43,17 @@ const Chat = () => {
     onValue(ref(db, "singlemsg"), (snapshot) => {
       let arr = []
       snapshot.forEach((item) => {
-        arr.push(item.val())
+        if (
+          (item.val().whosendid == auth.currentUser.uid &&
+            item.val().whoreceived == user.id) ||
+          (item.val().whosendid == user.id &&
+            item.val().whoreceived == auth.currentUser.uid)
+        )
+          arr.push(item.val())
       })
       setMsgList(arr)
     })
-  }, [])
+  }, [user.id])
 
   return (
     <div className=" chat">
