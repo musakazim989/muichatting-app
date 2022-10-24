@@ -19,6 +19,7 @@ const Chat = () => {
   }
 
   let handleMsgSend = () => {
+    console.log("first")
     if (user.status !== undefined) {
       if (msg !== "") {
         if (user.status == "group") {
@@ -69,7 +70,6 @@ const Chat = () => {
         {msgList.map((item, index) =>
           item.whosendid == auth.currentUser.uid ? (
             <div className="msg" style={alignright}>
-              {console.log(item)}
               <p style={msgsend}>{item.msg}</p>
               <div className="date" style={dateSend}>
                 Today, 2:01pm
