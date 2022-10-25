@@ -16,18 +16,13 @@ const ResetPassword = () => {
         navigate("/login", {
           state: { msg: "Please check your email and reset password." },
         })
-
         console.log("email send")
       })
       .catch((error) => {
         const errorCode = error.code
-        const errorMessage = error.message
         if (errorCode.includes("auth/invalid-email")) {
           setError("Invalid email!")
         }
-
-        console.log(errorCode)
-        // ..
       })
   }
   return (
