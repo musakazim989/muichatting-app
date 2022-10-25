@@ -26,6 +26,7 @@ const Chat = () => {
   const [file, setFile] = useState(null)
   const [open, setOpen] = useState(false)
   const [progress, setProgress] = useState(null)
+  const [mydate, setmyDate] = useState(null)
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
@@ -46,7 +47,8 @@ const Chat = () => {
             whoreceived: user.id,
             whoreceivedname: user.name,
             msg: msg,
-            date: moment(new Date(), "YYYYMMDD").fromNow(),
+            date: `${new Date().getFullYear()}-${new Date().getMonth() +
+              1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
           }).then(() => {
             setCheck(!check)
             setMsg("")
@@ -67,6 +69,7 @@ const Chat = () => {
             item.val().whoreceived == auth.currentUser.uid)
         )
           arr.push(item.val())
+        setmyDate(item.val().date)
       })
       setMsgList(arr)
     })
@@ -107,6 +110,8 @@ const Chat = () => {
                     whoreceivedname: user.name,
                     msg: msg,
                     img: downloadURL,
+                    date: `${new Date().getFullYear()}-${new Date().getMonth() +
+                      1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
                   })
                 }
               }
@@ -145,7 +150,7 @@ const Chat = () => {
               <div className="msg" style={alignright}>
                 <p style={msgsend}>{item.msg}</p>
                 <div className="date" style={dateSend}>
-                  {item.date}
+                  {moment(item.date, "YYYYMMDD hh:mm").fromNow()}
                 </div>
               </div>
             ) : (
@@ -154,7 +159,7 @@ const Chat = () => {
                   <img src={item.img} alt="" />
                 </div>
                 <div className="date" style={dateSend}>
-                  {item.date}
+                  {moment(item.date, "YYYYMMDD hh:mm").fromNow()}
                 </div>
               </div>
             )
@@ -162,7 +167,7 @@ const Chat = () => {
             <div className="msg" style={alignleft}>
               <p style={msgreceive}>{item.msg}</p>
               <div className="date" style={dateReceive}>
-                {item.date}
+                {moment(item.date, "YYYYMMDD hh:mm").fromNow()}
               </div>
             </div>
           ) : (
@@ -171,7 +176,7 @@ const Chat = () => {
                 <img src={item.img} alt="" />
               </div>
               <div className="date" style={msgreceive}>
-                {item.date}
+                {moment(item.date, "YYYYMMDD hh:mm").fromNow()}
               </div>
             </div>
           )
