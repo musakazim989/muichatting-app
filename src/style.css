@@ -666,10 +666,14 @@ h5 {
 
 .chat .chatimage {
   padding: 10px;
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .chat .chatimage img {
-  width: 300px;
+  width: 100%;
 }
 
 .msgwrite {

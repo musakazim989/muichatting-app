@@ -5,13 +5,14 @@ import { AiOutlineCamera } from "react-icons/ai"
 import { useSelector, useDispatch } from "react-redux"
 import { getAuth, updateProfile } from "firebase/auth"
 import { getDatabase, ref, set, push, onValue } from "firebase/database"
-import { Modal, Button, Box, Typography } from "@mui/material"
+import { Modal, Button, Box, Typography, CircularProgress } from "@mui/material"
 import {
   getStorage,
   ref as imgref,
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage"
+import moment from "moment/moment"
 
 const Chat = () => {
   const auth = getAuth()
@@ -22,8 +23,9 @@ const Chat = () => {
   const [msg, setMsg] = useState("")
   const [msgList, setMsgList] = useState([])
   const [check, setCheck] = useState(false)
-  const [file, setFile] = React.useState(null)
-  const [open, setOpen] = React.useState(false)
+  const [file, setFile] = useState(null)
+  const [open, setOpen] = useState(false)
+  const [progress, setProgress] = useState(null)
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
@@ -33,7 +35,6 @@ const Chat = () => {
   }
 
   let handleMsgSend = () => {
-    console.log("first")
     if (user.status !== undefined) {
       if (msg !== "") {
         if (user.status == "group") {
@@ -45,8 +46,10 @@ const Chat = () => {
             whoreceived: user.id,
             whoreceivedname: user.name,
             msg: msg,
+            date: moment(new Date(), "YYYYMMDD").fromNow(),
           }).then(() => {
             setCheck(!check)
+            setMsg("")
           })
         }
       }
@@ -70,25 +73,50 @@ const Chat = () => {
   }, [user.id])
 
   let handleImagload = (e) => {
-    setFile(e.target.files)
+    setFile(e.target.files[0])
   }
-  let handleImageUpload = (e) => {
-    const singleimgref = imgref(storage, "singleimage/" + file[0].name)
-    const uploadTask = uploadBytesResumable(singleimgref, file)
 
+  let handleImageSend = (e) => {
+    setOpen(true)
+    const singleimgref = imgref(storage, "singleimage/" + file.name)
+    const uploadTask = uploadBytesResumable(singleimgref, file)
     uploadTask.on(
       "state_changed",
       (snapshot) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         console.log("Upload is " + progress + "% done")
+        setProgress(progress)
       },
       (error) => {
         console.log(error)
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL)
-        })
+        getDownloadURL(uploadTask.snapshot.ref)
+          .then((downloadURL) => {
+            console.log("File available at", downloadURL)
+
+            if (user.status !== undefined) {
+              if (file !== "") {
+                if (user.status == "group") {
+                  console.log("group")
+                } else {
+                  set(push(ref(db, "singlemsg")), {
+                    whosendid: auth.currentUser.uid,
+                    whosendname: auth.currentUser.displayName,
+                    whoreceived: user.id,
+                    whoreceivedname: user.name,
+                    msg: msg,
+                    img: downloadURL,
+                  })
+                }
+              }
+            }
+          })
+          .then(() => {
+            setFile("")
+            setOpen(false)
+            setProgress(null)
+          })
       }
     )
   }
@@ -113,17 +141,37 @@ const Chat = () => {
       <div className="chatarea">
         {msgList.map((item, index) =>
           item.whosendid == auth.currentUser.uid ? (
-            <div className="msg" style={alignright}>
-              <p style={msgsend}>{item.msg}</p>
-              <div className="date" style={dateSend}>
-                Today, 2:01pm
+            item.msg ? (
+              <div className="msg" style={alignright}>
+                <p style={msgsend}>{item.msg}</p>
+                <div className="date" style={dateSend}>
+                  {item.date}
+                </div>
+              </div>
+            ) : (
+              <div className="msg" style={alignright}>
+                <div className="chatimage" style={msgsend}>
+                  <img src={item.img} alt="" />
+                </div>
+                <div className="date" style={dateSend}>
+                  {item.date}
+                </div>
+              </div>
+            )
+          ) : item.msg ? (
+            <div className="msg" style={alignleft}>
+              <p style={msgreceive}>{item.msg}</p>
+              <div className="date" style={dateReceive}>
+                {item.date}
               </div>
             </div>
           ) : (
             <div className="msg" style={alignleft}>
-              <p style={msgreceive}>{item.msg}</p>
-              <div className="date" style={dateReceive}>
-                Today, 2:01pm
+              <div className="chatimage" style={dateReceive}>
+                <img src={item.img} alt="" />
+              </div>
+              <div className="date" style={msgreceive}>
+                {item.date}
               </div>
             </div>
           )
@@ -132,7 +180,12 @@ const Chat = () => {
 
       <div className="msg-box">
         <div className="msgwrite">
-          <input onChange={handleMessage} type="text" placeholder="Message" />
+          <input
+            onChange={handleMessage}
+            type="text"
+            placeholder="Message"
+            value={msg}
+          />
           <AiOutlineCamera onClick={handleOpen} className="camera" />
           <button onClick={handleMsgSend}>
             <IoIosSend className="msg-icon" />
@@ -147,24 +200,64 @@ const Chat = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-            style={{ marginBottom: "20px" }}
-          >
-            Image Upload
-          </Typography>
-          <Typography>
-            <input type="file" onChange={handleImagload} />
-          </Typography>
-          <Button
-            onClick={handleImageUpload}
-            variant="contained"
-            style={{ marginTop: "20px" }}
-          >
-            Upload
-          </Button>
+          {progress ? (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Image Upload
+              </Typography>
+
+              <Box sx={{ position: "relative", display: "inline-flex" }}>
+                <CircularProgress variant="determinate" value={progress} />
+                <Box
+                  sx={{
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                    position: "absolute",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    variant="caption"
+                    component="div"
+                    color="text.secondary"
+                  >
+                    {progress && `${Math.round(progress)}%`}
+                  </Typography>
+                </Box>
+              </Box>
+            </div>
+          ) : (
+            <>
+              <Typography
+                id="modal-modal-title"
+                variant="h6"
+                component="h2"
+                style={{ marginBottom: "20px" }}
+              >
+                Image Upload
+              </Typography>
+              <Typography>
+                <input type="file" onChange={handleImagload} />
+              </Typography>
+              <Button
+                onClick={handleImageSend}
+                variant="contained"
+                style={{ marginTop: "20px" }}
+              >
+                Upload
+              </Button>
+            </>
+          )}
         </Box>
       </Modal>
     </div>
