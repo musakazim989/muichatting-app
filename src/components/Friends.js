@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { getDatabase, ref, onValue } from "firebase/database"
+import { getDatabase, ref, onValue, set, push } from "firebase/database"
 import { Alert } from "@mui/material"
 import { getAuth } from "firebase/auth"
 import { BiMessageAltDetail } from "react-icons/bi"
@@ -28,6 +28,22 @@ const Friends = (props) => {
     })
   }, [])
 
+  let handleBlock = (item) => {
+    auth.currentUser.uid == item.senderid
+      ? set(push(ref(db, "block")), {
+          blockname: item.receivername,
+          blockid: item.receiverid,
+          blockby: item.sendername,
+          blockbyid: item.senderid,
+        })
+      : set(push(ref(db, "block")), {
+          blockname: item.sendername,
+          blockid: item.senderid,
+          blockby: item.receivername,
+          blockbyid: item.senderid,
+        })
+  }
+
   return (
     <div className="grouplist friendlist ">
       {showFriends.length > 1 ? (
@@ -50,7 +66,6 @@ const Friends = (props) => {
               <h4>{item.sendername}</h4>
             )}
             <h5>The best fishing Group</h5>
-            <h5>{item.senderid}</h5>
           </div>
           <div className="button2">
             {props.item == "date" ? (
@@ -66,6 +81,16 @@ const Friends = (props) => {
                 <BiMessageAltDetail />
               </button>
             )}
+            <button
+              onClick={() => handleBlock(item)}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              Block
+            </button>
           </div>
           <div className="divider"></div>
         </div>

@@ -443,6 +443,18 @@ h5 {
   font-weight: 500;
 }
 
+.friendlist .button2 button {
+  font-family: "Nunito", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  background: #3d0e88;
+  color: #fff;
+  padding: 5px 16px;
+  border-radius: 5px;
+  border: 0;
+  cursor: pointer;
+}
+
 .userlist .box .button {
   display: flex;
   justify-content: center;

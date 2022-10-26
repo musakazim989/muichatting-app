@@ -1,6 +1,34 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
+import { getDatabase, ref, onValue, set, push, remove } from "firebase/database"
+import { getAuth } from "firebase/auth"
 
 const BlockUser = () => {
+  const db = getDatabase()
+  const auth = getAuth()
+
+  const [blocklist, setBlocklist] = useState([])
+
+  useEffect(() => {
+    const blockRef = ref(db, "block/")
+    onValue(blockRef, (snapshot) => {
+      let blockArr = []
+      snapshot.forEach((item) => {
+        if (item.val().blockbyid == auth.currentUser.uid) {
+          blockArr.push({
+            id: item.key,
+            block: item.val().blockby,
+            blockid: item.val().receiverid,
+            blockbyid: item.val().blockbyid,
+            blockbyname: item.val().blockname,
+          })
+        }
+      })
+      setBlocklist(blockArr)
+    })
+  }, [])
+
+  console.log(blocklist)
+
   return (
     <div className="grouplist friendlist mygroup">
       <h2>Block Users</h2>

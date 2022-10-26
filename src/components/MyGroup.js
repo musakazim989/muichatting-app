@@ -33,7 +33,6 @@ const MyGroup = () => {
         (item) =>
           item.adminid == auth.currentUser.uid && (
             <>
-              {console.log(item)}
               <div className="box">
                 <div className="img">
                   <img src="./assets/images/group.jpg" alt="" />
