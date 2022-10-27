@@ -13,6 +13,8 @@ const Friends = (props) => {
   const [check, setCheck] = useState(false)
   const dispatch = useDispatch()
 
+  console.log(showFriends)
+
   useEffect(() => {
     const starCountRef = ref(db, "friends/")
     onValue(starCountRef, (snapshot) => {
@@ -47,7 +49,9 @@ const Friends = (props) => {
           blockname: item.sendername,
           blockid: item.senderid,
         }).then(() => {
-          remove(ref(db, "friends/" + item.id))
+          remove(ref(db, "friends/" + item.id)).then(() => {
+            console.log("skdghksdhgkhdskh")
+          })
           setCheck(!check)
         })
   }

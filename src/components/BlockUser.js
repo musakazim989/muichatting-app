@@ -14,12 +14,16 @@ const BlockUser = () => {
     onValue(blockRef, (snapshot) => {
       let blockArr = []
       snapshot.forEach((item) => {
-        console.log(item.val())
+        console.log(item.val().blockbyid)
         if (item.val().blockbyid == auth.currentUser.uid) {
           blockArr.push({
             id: item.key,
             blockname: item.val().blockname,
             blockid: item.val().blockid,
+          })
+        } else {
+          blockArr.push({
+            id: item.key,
             blockbyname: item.val().blockbyname,
             blockbyid: item.val().blockbyid,
           })
@@ -53,11 +57,8 @@ const BlockUser = () => {
             <img src="./assets/images/group.jpg" alt="" />
           </div>
           <div className="name">
-            {auth.currentUser.uid == item.blockbyid ? (
-              <h4>{item.blockbyname}thyertyhetyhrt</h4>
-            ) : (
-              <h4>{item.blockname}</h4>
-            )}
+            <h4>{item.blockname}</h4>
+
             <h5>The best fishing Group</h5>
           </div>
           <div className="button">
