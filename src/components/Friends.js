@@ -31,16 +31,16 @@ const Friends = (props) => {
   let handleBlock = (item) => {
     auth.currentUser.uid == item.senderid
       ? set(push(ref(db, "block")), {
+          blockbyname: item.sendername,
+          blockbyid: item.senderid,
           blockname: item.receivername,
           blockid: item.receiverid,
-          blockby: item.sendername,
-          blockbyid: item.senderid,
         })
       : set(push(ref(db, "block")), {
+          blockbyname: item.receivername,
+          blockbyid: item.receiverid,
           blockname: item.sendername,
           blockid: item.senderid,
-          blockby: item.receivername,
-          blockbyid: item.senderid,
         })
   }
 

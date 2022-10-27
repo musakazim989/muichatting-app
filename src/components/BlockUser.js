@@ -13,13 +13,13 @@ const BlockUser = () => {
     onValue(blockRef, (snapshot) => {
       let blockArr = []
       snapshot.forEach((item) => {
-        if (item.val().blockbyid == auth.currentUser.uid) {
+        if (item.val().blockid == auth.currentUser.uid) {
           blockArr.push({
             id: item.key,
-            block: item.val().blockby,
-            blockid: item.val().receiverid,
+            blockname: item.val().blockname,
+            blockid: item.val().blockid,
             blockbyid: item.val().blockbyid,
-            blockbyname: item.val().blockname,
+            blockbyname: item.val().blockbyname,
           })
         }
       })
@@ -32,23 +32,27 @@ const BlockUser = () => {
   return (
     <div className="grouplist friendlist mygroup">
       <h2>Block Users</h2>
-
-      <div className="box">
-        <div className="img">
-          <img src="./assets/images/group.jpg" alt="" />
+      {blocklist.map((item) => (
+        <div className="box">
+          <div className="img">
+            <img src="./assets/images/group.jpg" alt="" />
+          </div>
+          <div className="name">
+            <h4>{item.blockname}</h4>
+            <h5>The best fishing Group</h5>
+          </div>
+          <div className="button">
+            <div className="info">
+              <p>3/6//2022</p>
+              <button>Unblock</button>
+            </div>
+          </div>
         </div>
-        <div className="name">
-          <h4>MERN</h4>
-
-          <h5>The best fishing Group</h5>
-        </div>
-        <div className="button">
-          <p>3/6//2022</p>
-        </div>
-      </div>
+      ))}
 
       <div className="divider"></div>
-      <div className="box">
+
+      {/* <div className="box">
         <div className="img">
           <img src="./assets/images/group.jpg" alt="" />
         </div>
@@ -64,8 +68,7 @@ const BlockUser = () => {
           </div>
         </div>
       </div>
-
-      <div className="divider"></div>
+      <div className="divider"></div> */}
     </div>
   )
 }

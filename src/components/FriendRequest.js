@@ -15,7 +15,7 @@ const FriendRequest = () => {
     onValue(friendReqRef, (snapshot) => {
       let friendReqArray = []
       snapshot.forEach((item) => {
-        if (item.val().blockbyid == auth.currentUser.uid) {
+        if (item.val().receiverid == auth.currentUser.uid) {
           friendReqArray.push({
             id: item.key,
             receivername: item.val().receivername,
