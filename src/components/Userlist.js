@@ -25,7 +25,7 @@ const Userlist = () => {
       })
       setUserlist(userArr)
     })
-  }, [])
+  }, [userList])
 
   useEffect(() => {
     const friendReqRef = ref(db, "friendrequest/")
