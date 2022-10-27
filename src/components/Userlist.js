@@ -48,7 +48,6 @@ const Userlist = () => {
         setFriends(friendsArray)
       })
     })
-
     setCheck(!check)
   }, [])
 

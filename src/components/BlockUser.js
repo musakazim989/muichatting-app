@@ -53,7 +53,11 @@ const BlockUser = () => {
             <img src="./assets/images/group.jpg" alt="" />
           </div>
           <div className="name">
-            <h4>{item.blockname}</h4>
+            {auth.currentUser.uid == item.blockbyid ? (
+              <h4>{item.blockname}</h4>
+            ) : (
+              <h4>{item.blockbyname}</h4>
+            )}
             <h5>The best fishing Group</h5>
           </div>
           <div className="button">
