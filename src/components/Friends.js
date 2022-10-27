@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { getDatabase, ref, onValue, set, push } from "firebase/database"
+import { getDatabase, ref, onValue, set, push, remove } from "firebase/database"
 import { Alert } from "@mui/material"
 import { getAuth } from "firebase/auth"
 import { BiMessageAltDetail } from "react-icons/bi"
@@ -21,7 +21,7 @@ const Friends = (props) => {
           auth.currentUser.uid == item.val().receiverid ||
           auth.currentUser.uid == item.val().senderid
         ) {
-          friendsArr.push(item.val())
+          friendsArr.push({ ...item.val(), key: item.key })
         }
       })
       setFriendShow(friendsArr)
@@ -29,18 +29,24 @@ const Friends = (props) => {
   }, [])
 
   let handleBlock = (item) => {
+    console.log("test my key", item)
     auth.currentUser.uid == item.senderid
       ? set(push(ref(db, "block")), {
           blockbyname: item.sendername,
           blockbyid: item.senderid,
           blockname: item.receivername,
           blockid: item.receiverid,
+        }).then(() => {
+          remove(ref(db, "friends/" + item.key))
+          console.log("first")
         })
       : set(push(ref(db, "block")), {
           blockbyname: item.receivername,
           blockbyid: item.receiverid,
           blockname: item.sendername,
           blockid: item.senderid,
+        }).then(() => {
+          remove(ref(db, "friends/" + item.id))
         })
   }
 
