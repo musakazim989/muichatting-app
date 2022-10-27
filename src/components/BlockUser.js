@@ -54,9 +54,9 @@ const BlockUser = () => {
           </div>
           <div className="name">
             {auth.currentUser.uid == item.blockbyid ? (
-              <h4>{item.blockname}</h4>
+              <h4>{item.blockbyname}thyertyhetyhrt</h4>
             ) : (
-              <h4>{item.blockbyname}</h4>
+              <h4>{item.blockname}</h4>
             )}
             <h5>The best fishing Group</h5>
           </div>
