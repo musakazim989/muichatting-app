@@ -51,27 +51,27 @@ const BlockUser = () => {
   return (
     <div className="grouplist friendlist mygroup">
       <h2>Block Users</h2>
-      {blocklist.map((item) => (
-        <div className="box">
-          <div className="img">
-            <img src="./assets/images/group.jpg" alt="" />
-          </div>
-          <div className="name">
-            <h4>{item.blockname}</h4>
-
-            <h5>The best fishing Group</h5>
-          </div>
-          <div className="button">
-            <div className="info">
-              <p>3/6//2022</p>
-              <button onClick={() => handleUnblock(item)}>Unblock</button>
+      {blocklist.map((item) =>
+        item.blockname ? (
+          <div className="box">
+            <div className="img">
+              <img src="./assets/images/group.jpg" alt="" />
             </div>
+            <div className="name">
+              <h4>{item.blockname}</h4>
+              <h5>The best fishing Group</h5>
+            </div>
+            <div className="button">
+              <div className="info">
+                <p>3/6//2022</p>
+                <button onClick={() => handleUnblock(item)}>Unblock</button>
+              </div>
+            </div>
+            <div className="divider"></div>
           </div>
-          <div className="divider"></div>
-        </div>
-      ))}
-      {blocklist.length === 0 && (
-        <Alert severity="info">You didn't block any user.</Alert>
+        ) : (
+          <Alert severity="info">You didn't block any user.</Alert>
+        )
       )}
     </div>
   )
