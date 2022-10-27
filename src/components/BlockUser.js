@@ -39,8 +39,8 @@ const BlockUser = () => {
       // id: item.id, it is friendreq id if needed get it with props
       receivername: item.blockname,
       receiverid: item.blockid,
-      sendername: item.blockbyname,
-      senderid: item.blockbyid,
+      sendername: auth.currentUser.displayName,
+      senderid: auth.currentUser.uid,
       date: `${new Date().getDate()}/${new Date().getMonth() +
         1}/${new Date().getFullYear()}`,
     }).then(() => {
