@@ -9,19 +9,20 @@ const BlockUser = () => {
 
   const [blocklist, setBlocklist] = useState([])
 
+  console.log(blocklist)
+
   useEffect(() => {
     const blockRef = ref(db, "block/")
     onValue(blockRef, (snapshot) => {
       let blockArr = []
       snapshot.forEach((item) => {
-        console.log(item.val().blockbyid)
         if (item.val().blockbyid == auth.currentUser.uid) {
           blockArr.push({
             id: item.key,
             blockname: item.val().blockname,
             blockid: item.val().blockid,
           })
-        } else {
+        } else if (item.val().blockid == auth.currentUser.uid) {
           blockArr.push({
             id: item.key,
             blockbyname: item.val().blockbyname,
@@ -70,8 +71,11 @@ const BlockUser = () => {
             <div className="divider"></div>
           </div>
         ) : (
-          <Alert severity="info">You didn't block any user.</Alert>
+          ""
         )
+      )}
+      {blocklist.length == 0 && (
+        <Alert severity="info">You didn't block any user.</Alert>
       )}
     </div>
   )
