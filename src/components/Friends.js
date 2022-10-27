@@ -10,6 +10,7 @@ const Friends = (props) => {
   const auth = getAuth()
   const db = getDatabase()
   const [showFriends, setFriendShow] = useState([])
+  const [check, setCheck] = useState(false)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -26,7 +27,7 @@ const Friends = (props) => {
       })
       setFriendShow(friendsArr)
     })
-  }, [])
+  }, [check])
 
   let handleBlock = (item) => {
     console.log("test my key", item)
@@ -38,7 +39,7 @@ const Friends = (props) => {
           blockid: item.receiverid,
         }).then(() => {
           remove(ref(db, "friends/" + item.key))
-          console.log("first")
+          setCheck(!check)
         })
       : set(push(ref(db, "block")), {
           blockbyname: item.receivername,
@@ -47,6 +48,7 @@ const Friends = (props) => {
           blockid: item.senderid,
         }).then(() => {
           remove(ref(db, "friends/" + item.id))
+          setCheck(!check)
         })
   }
 

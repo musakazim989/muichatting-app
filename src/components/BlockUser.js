@@ -30,6 +30,7 @@ const BlockUser = () => {
   }, [])
 
   let handleUnblock = (item) => {
+    console.log(item)
     set(push(ref(db, "friends")), {
       // id: item.id, it is friendreq id if needed get it with props
       receivername: item.blockname,
@@ -40,7 +41,6 @@ const BlockUser = () => {
         1}/${new Date().getFullYear()}`,
     }).then(() => {
       remove(ref(db, "block/" + item.id))
-      console.log("shundor hoyeche")
     })
   }
 
