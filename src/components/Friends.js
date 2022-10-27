@@ -49,9 +49,7 @@ const Friends = (props) => {
           blockname: item.sendername,
           blockid: item.senderid,
         }).then(() => {
-          remove(ref(db, "friends/" + item.id)).then(() => {
-            console.log("skdghksdhgkhdskh")
-          })
+          remove(ref(db, "friends/" + item.key))
           setCheck(!check)
         })
   }
