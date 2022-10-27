@@ -11,6 +11,7 @@ const Userlist = () => {
   const [firendReq, setFriendReq] = useState([])
   const [reqChange, setReqChange] = useState(false)
   const [friends, setFriends] = useState([])
+  const [check, setCheck] = useState(false)
 
   useEffect(() => {
     const starCountRef = ref(db, "users/")
@@ -25,7 +26,7 @@ const Userlist = () => {
       })
       setUserlist(userArr)
     })
-  }, [userList])
+  }, [check])
 
   useEffect(() => {
     const friendReqRef = ref(db, "friendrequest/")
@@ -47,6 +48,8 @@ const Userlist = () => {
         setFriends(friendsArray)
       })
     })
+
+    setCheck(!check)
   }, [])
 
   let handleFriendRequest = (data) => {
