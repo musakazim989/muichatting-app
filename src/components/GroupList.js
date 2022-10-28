@@ -11,7 +11,7 @@ import {
 } from "firebase/database"
 import Cropper from "react-cropper"
 import "cropperjs/dist/cropper.css"
-import { Modal, Box, Typography, TextField } from "@mui/material"
+import { Modal, Box, Typography, TextField, Alert } from "@mui/material"
 import { AiOutlineCamera } from "react-icons/ai"
 
 const style = {
@@ -55,15 +55,18 @@ const GroupList = () => {
     onValue(groupRef, (snapshot) => {
       let groupArr = []
       snapshot.forEach((item) => {
-        let groupinfo = {
-          adminid: item.val().adminid,
-          adminname: item.val().adminname,
-          groupname: item.val().groupname,
-          grouptagline: item.val().grouptagline,
-          key: item.key,
+        if (auth.currentUser.uid == item.val().adminid) {
+          let groupinfo = {
+            adminid: item.val().adminid,
+            adminname: item.val().adminname,
+            groupname: item.val().groupname,
+            grouptagline: item.val().grouptagline,
+            key: item.key,
+          }
+          groupArr.push(groupinfo)
         }
-        groupArr.push(groupinfo)
       })
+
       setAdminGroupInfo(groupArr)
     })
   }, [check])
@@ -136,6 +139,10 @@ const GroupList = () => {
               <div className="divider"></div>
             </>
           )
+      )}
+
+      {adminGroupInfo.length == 0 && (
+        <Alert severity="info">You don't make any group.</Alert>
       )}
 
       <Modal
