@@ -10,8 +10,6 @@ const FriendRequest = () => {
   const [firendReq, setFriendReq] = useState([])
   let [dlt, setDlt] = useState(true)
 
-  console.log(firendReq)
-
   useEffect(() => {
     const friendReqRef = ref(db, "friendrequest/")
     onValue(friendReqRef, (snapshot) => {

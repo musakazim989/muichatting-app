@@ -86,9 +86,15 @@ const GroupList = () => {
   }
 
   let handleGroupJoin = (id, gid) => {
-    console.log(id)
-    console.log(gid)
     set(push(dbref(db, "groupjoinrequest/")), {
+      adminid: id,
+      groupid: gid,
+      userid: auth.currentUser.uid,
+      username: auth.currentUser.displayName,
+      userprofileimage: auth.currentUser.photoURL,
+    })
+
+    set(push(dbref(db, "notifications/")), {
       adminid: id,
       groupid: gid,
       username: auth.currentUser.displayName,

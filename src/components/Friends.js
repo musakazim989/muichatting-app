@@ -13,8 +13,6 @@ const Friends = (props) => {
   const [check, setCheck] = useState(false)
   const dispatch = useDispatch()
 
-  console.log(showFriends)
-
   useEffect(() => {
     const starCountRef = ref(db, "friends/")
     onValue(starCountRef, (snapshot) => {
@@ -32,7 +30,6 @@ const Friends = (props) => {
   }, [check])
 
   let handleBlock = (item) => {
-    console.log("test my key", item)
     auth.currentUser.uid == item.senderid
       ? set(push(ref(db, "block")), {
           blockbyname: item.sendername,
