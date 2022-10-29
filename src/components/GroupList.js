@@ -55,7 +55,7 @@ const GroupList = () => {
     onValue(groupRef, (snapshot) => {
       let groupArr = []
       snapshot.forEach((item) => {
-        if (auth.currentUser.uid == item.val().adminid) {
+        if (auth.currentUser.uid !== item.val().adminid) {
           let groupinfo = {
             adminid: item.val().adminid,
             adminname: item.val().adminname,
@@ -142,7 +142,7 @@ const GroupList = () => {
       )}
 
       {adminGroupInfo.length == 0 && (
-        <Alert severity="info">You don't make any group.</Alert>
+        <Alert severity="info">No group has created.</Alert>
       )}
 
       <Modal

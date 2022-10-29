@@ -8,9 +8,6 @@ const MyGroup = () => {
   const [adminGroupInfo, setAdminGroupInfo] = useState([])
   const [open, setOpen] = React.useState(false)
 
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
-
   useEffect(() => {
     const db = getDatabase()
     const groupRef = ref(db, "groups/")
@@ -32,6 +29,11 @@ const MyGroup = () => {
       setAdminGroupInfo(groupArr)
     })
   }, [])
+
+  const handleClose = () => setOpen(false)
+  const handleOpen = () => {
+    setOpen(true)
+  }
 
   return (
     <div className="grouplist friendlist mygroup">
