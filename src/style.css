@@ -534,6 +534,9 @@ h5 {
   align-items: center;
   row-gap: 3px;
 }
+.mygroup .info button {
+  cursor: pointer;
+}
 
 .forgotpassword {
   background: #3d0e88;
@@ -736,18 +739,6 @@ h5 {
   padding: 20px;
 }
 
-.mymodal .divider {
-  border-bottom: 1px solid rgba(18, 24, 92, 0.2);
-}
-
-.mymodal .divider:last-child {
-  border-bottom: none;
-}
-
-.mymodal .divider {
-  border-bottom: 1px solid rgba(18, 24, 92, 0.2);
-}
-
 .mymodal h4 {
   font-family: "Nunito", sans-serif;
   font-size: 14px;
@@ -765,8 +756,8 @@ h5 {
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
+  margin-right: 10px;
 }
-
 .mymodal .button {
   display: flex;
   align-items: center;
@@ -783,13 +774,14 @@ h5 {
   border-radius: 5px;
   border: 0;
 }
-
-.mymodal .css-sghohy-MuiButtonBase-root-MuiButton-root {
-  background: #3d0e88 !important;
+.mymodal .remove button {
   font-family: "Nunito", sans-serif;
   font-size: 12px;
   font-weight: 400;
+  background: #b60404;
   color: #fff;
-  text-transform: capitalize;
-  margin-top: 10px;
+  padding: 5px 16px;
+  border-radius: 5px;
+  border: 0;
+  margin-left: 5px;
 }

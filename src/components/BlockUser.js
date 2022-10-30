@@ -9,8 +9,6 @@ const BlockUser = () => {
 
   const [blocklist, setBlocklist] = useState([])
 
-  console.log(blocklist)
-
   useEffect(() => {
     const blockRef = ref(db, "block/")
     onValue(blockRef, (snapshot) => {

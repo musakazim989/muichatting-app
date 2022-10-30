@@ -88,11 +88,13 @@ const GroupList = () => {
       .catch((error) => console.log(error))
   }
 
-  let handleGroupJoin = (id, gid) => {
+  let handleGroupJoin = (id, gid, gn, gt) => {
     set(push(dbref(db, "groupjoinrequest/")), {
       adminid: id,
       groupid: gid,
+      groupname: gn,
       userid: auth.currentUser.uid,
+      grouptagline: gt,
       username: auth.currentUser.displayName,
       userprofileimage: auth.currentUser.photoURL,
     })
@@ -100,6 +102,8 @@ const GroupList = () => {
     set(push(dbref(db, "notifications/")), {
       adminid: id,
       groupid: gid,
+      groupname: gn,
+      grouptagline: gt,
       userid: auth.currentUser.displayName,
       username: auth.currentUser.displayName,
       userprofileimage: auth.currentUser.photoURL,
@@ -131,7 +135,14 @@ const GroupList = () => {
                 </div>
                 <div className="button">
                   <button
-                    onClick={() => handleGroupJoin(item.adminid, item.key)}
+                    onClick={() =>
+                      handleGroupJoin(
+                        item.adminid,
+                        item.key,
+                        item.groupname,
+                        item.grouptagline
+                      )
+                    }
                   >
                     Join
                   </button>

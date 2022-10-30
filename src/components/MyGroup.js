@@ -10,14 +10,15 @@ import {
   ListItemText,
   Divider,
 } from "@mui/material"
-import { getDatabase, ref, onValue } from "firebase/database"
+import { getDatabase, ref, onValue, remove, set, push } from "firebase/database"
 import { getAuth, updateProfile } from "firebase/auth"
 
 const MyGroup = () => {
   const auth = getAuth()
+  const db = getDatabase()
   const [adminGroupInfo, setAdminGroupInfo] = useState([])
   const [groupInfo, setGroupInfo] = useState([])
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     const db = getDatabase()
@@ -29,9 +30,9 @@ const MyGroup = () => {
           let groupinfo = {
             adminid: item.val().adminid,
             adminname: item.val().adminname,
+            groupid: item.key,
             groupname: item.val().groupname,
             grouptagline: item.val().grouptagline,
-            key: item.key,
           }
           groupArr.push(groupinfo)
         }
@@ -40,17 +41,24 @@ const MyGroup = () => {
     })
   }, [])
 
-  useEffect(() => {
+  const handleClose = () => setOpen(false)
+
+  const handleOpen = (group) => {
+    setOpen(true)
     const db = getDatabase()
     const groupInfoRef = ref(db, "groupjoinrequest")
     onValue(groupInfoRef, (snapshot) => {
       let groupArr = []
       snapshot.forEach((item) => {
-        if (auth.currentUser.uid == item.val().adminid) {
+        if (
+          auth.currentUser.uid == item.val().adminid &&
+          item.val().groupid == group.groupid
+        ) {
           let groupinfo = {
             adminid: item.val().adminid,
             userid: item.val().userid,
             username: item.val().username,
+            groupid: item.val().groupid,
             userprofile: item.val().userprofile,
             key: item.key,
           }
@@ -59,15 +67,27 @@ const MyGroup = () => {
       })
       setGroupInfo(groupArr)
     })
-  }, [])
-
-  const handleClose = () => setOpen(false)
-  const handleOpen = () => {
-    setOpen(true)
   }
 
   let handleGroupApprove = (item) => {
     console.log(item)
+    const db = getDatabase()
+    set(push(ref(db, "groupmembers/")), {
+      adminid: item.adminid,
+      userid: item.userid,
+      username: item.username,
+      groupid: item.groupid,
+      // userprofile: item.userprofile,
+      key: item.key,
+    }).then(() => {
+      remove(ref(db, "groupjoinrequest/" + item.key))
+      setOpen(false)
+    })
+  }
+
+  let handleGroupDecline = (item) => {
+    console.log(item)
+    remove(ref(db, "groupjoinrequest/" + item.key))
   }
 
   return (
@@ -87,8 +107,10 @@ const MyGroup = () => {
                 </div>
                 <div className="button">
                   <div className="info">
-                    <p>3/6//2022</p>
-                    <button onClick={handleOpen} variant="contained">
+                    <button
+                      onClick={() => handleOpen(item)}
+                      variant="contained"
+                    >
                       Join Request
                     </button>
                   </div>
@@ -110,26 +132,26 @@ const MyGroup = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          <nav aria-label="main mailbox folders">
+            <List>
+              <ListItem disablePadding>
+                <ListItemButton>
+                  <ListItemText primary="Group request list" />
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </nav>
+          <Divider />
           {groupInfo.length == 0 && (
             <Alert severity="info">No group join request found.</Alert>
           )}
+
           {groupInfo.map((item, index) => (
             <>
-              <nav aria-label="main mailbox folders">
-                <List>
-                  <ListItem disablePadding>
-                    <ListItemButton>
-                      <ListItemText primary="Group request list" />
-                    </ListItemButton>
-                  </ListItem>
-                </List>
-              </nav>
-              <Divider />
-
-              <div key={index}>
+              <div key={index} className="modal-box">
                 <div className="box mymodal">
                   <div className="img">
-                    <img src="./assets/images/personal.jpg" alt="" />
+                    <img src={item.userprofileimage} alt="" />
                   </div>
                   <div className="name">
                     <h4>{item.username}</h4>
@@ -141,17 +163,21 @@ const MyGroup = () => {
                     </h5>
                   </div>
                   <div className="button">
-                    <button
-                      onClick={() => {
-                        handleGroupApprove(item)
-                      }}
-                    >
+                    <button onClick={() => handleGroupApprove(item)}>
                       Approve
                     </button>
+                    <div className="remove">
+                      <button
+                        onClick={() => {
+                          handleGroupDecline(item)
+                        }}
+                      >
+                        Decline
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="divider"></div>
             </>
           ))}
         </Box>
