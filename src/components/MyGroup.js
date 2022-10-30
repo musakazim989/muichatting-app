@@ -51,6 +51,7 @@ const MyGroup = () => {
             adminid: item.val().adminid,
             userid: item.val().userid,
             username: item.val().username,
+            userprofile: item.val().userprofile,
             key: item.key,
           }
           groupArr.push(groupinfo)
@@ -65,7 +66,9 @@ const MyGroup = () => {
     setOpen(true)
   }
 
-  console.log("grouplist", groupInfo)
+  let handleGroupApprove = (item) => {
+    console.log(item)
+  }
 
   return (
     <div className="grouplist friendlist mygroup">
@@ -74,7 +77,7 @@ const MyGroup = () => {
         (item) =>
           item.adminid == auth.currentUser.uid && (
             <>
-              <div className="box">
+              <div className="box box2">
                 <div className="img">
                   <img src="./assets/images/group.jpg" alt="" />
                 </div>
@@ -107,6 +110,9 @@ const MyGroup = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          {groupInfo.length == 0 && (
+            <Alert severity="info">No group join request found.</Alert>
+          )}
           {groupInfo.map((item, index) => (
             <>
               <nav aria-label="main mailbox folders">
@@ -121,36 +127,31 @@ const MyGroup = () => {
               <Divider />
 
               <div key={index}>
-                <div className="box">
-                  <div className="img" style={{ width: "50px" }}>
-                    <img
-                      style={{ width: "100%" }}
-                      src="./assets/images/personal.jpg"
-                      alt=""
-                    />
+                <div className="box mymodal">
+                  <div className="img">
+                    <img src="./assets/images/personal.jpg" alt="" />
                   </div>
                   <div className="name">
-                    <h4>asfhfs</h4>
-                    <h5>The best fishing gourp in Urla</h5>
+                    <h4>{item.username}</h4>
+                    <h5>
+                      {item.username}{" "}
+                      <span style={{ width: "100px" }}>
+                        - wants to join the group
+                      </span>
+                    </h5>
                   </div>
                   <div className="button">
-                    <button>Accept</button>
+                    <button
+                      onClick={() => {
+                        handleGroupApprove(item)
+                      }}
+                    >
+                      Approve
+                    </button>
                   </div>
                 </div>
               </div>
-
-              {/* <nav aria-label="secondary mailbox folders">
-                <List>
-                  <ListItem disablePadding>
-                    <ListItemButton>{item.username}</ListItemButton>
-                  </ListItem>
-                  <ListItem disablePadding>
-                    <ListItemButton component="a" href="#simple-list">
-                      {item.}
-                    </ListItemButton>
-                  </ListItem>
-                </List>
-              </nav> */}
+              <div className="divider"></div>
             </>
           ))}
         </Box>
