@@ -57,7 +57,7 @@ const JoinGroupList = () => {
 
   return (
     <div className="grouplist joingroup">
-      <h2>Join Group</h2>
+      <h2>Joind Group</h2>
       <>
         {adminGroupInfo.map((item, index) => (
           <div key={index}>

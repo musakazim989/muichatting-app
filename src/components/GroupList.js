@@ -100,6 +100,7 @@ const GroupList = () => {
     set(push(dbref(db, "notifications/")), {
       adminid: id,
       groupid: gid,
+      userid: auth.currentUser.displayName,
       username: auth.currentUser.displayName,
       userprofileimage: auth.currentUser.photoURL,
     })

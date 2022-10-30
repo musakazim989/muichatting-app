@@ -1,17 +1,27 @@
 import React, { useState, useEffect } from "react"
-import { Button, Alert, Modal, Typography, Box } from "@mui/material"
+import {
+  Button,
+  Alert,
+  Modal,
+  List,
+  Box,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Divider,
+} from "@mui/material"
 import { getDatabase, ref, onValue } from "firebase/database"
 import { getAuth, updateProfile } from "firebase/auth"
 
 const MyGroup = () => {
   const auth = getAuth()
   const [adminGroupInfo, setAdminGroupInfo] = useState([])
+  const [groupInfo, setGroupInfo] = useState([])
   const [open, setOpen] = React.useState(false)
 
   useEffect(() => {
     const db = getDatabase()
     const groupRef = ref(db, "groups/")
-
     onValue(groupRef, (snapshot) => {
       let groupArr = []
       snapshot.forEach((item) => {
@@ -30,10 +40,32 @@ const MyGroup = () => {
     })
   }, [])
 
+  useEffect(() => {
+    const db = getDatabase()
+    const groupInfoRef = ref(db, "groupjoinrequest")
+    onValue(groupInfoRef, (snapshot) => {
+      let groupArr = []
+      snapshot.forEach((item) => {
+        if (auth.currentUser.uid == item.val().adminid) {
+          let groupinfo = {
+            adminid: item.val().adminid,
+            userid: item.val().userid,
+            username: item.val().username,
+            key: item.key,
+          }
+          groupArr.push(groupinfo)
+        }
+      })
+      setGroupInfo(groupArr)
+    })
+  }, [])
+
   const handleClose = () => setOpen(false)
   const handleOpen = () => {
     setOpen(true)
   }
+
+  console.log("grouplist", groupInfo)
 
   return (
     <div className="grouplist friendlist mygroup">
@@ -54,7 +86,7 @@ const MyGroup = () => {
                   <div className="info">
                     <p>3/6//2022</p>
                     <button onClick={handleOpen} variant="contained">
-                      Info
+                      Join Request
                     </button>
                   </div>
                 </div>
@@ -75,12 +107,52 @@ const MyGroup = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+          {groupInfo.map((item, index) => (
+            <>
+              <nav aria-label="main mailbox folders">
+                <List>
+                  <ListItem disablePadding>
+                    <ListItemButton>
+                      <ListItemText primary="Group request list" />
+                    </ListItemButton>
+                  </ListItem>
+                </List>
+              </nav>
+              <Divider />
+
+              <div key={index}>
+                <div className="box">
+                  <div className="img" style={{ width: "50px" }}>
+                    <img
+                      style={{ width: "100%" }}
+                      src="./assets/images/personal.jpg"
+                      alt=""
+                    />
+                  </div>
+                  <div className="name">
+                    <h4>asfhfs</h4>
+                    <h5>The best fishing gourp in Urla</h5>
+                  </div>
+                  <div className="button">
+                    <button>Accept</button>
+                  </div>
+                </div>
+              </div>
+
+              {/* <nav aria-label="secondary mailbox folders">
+                <List>
+                  <ListItem disablePadding>
+                    <ListItemButton>{item.username}</ListItemButton>
+                  </ListItem>
+                  <ListItem disablePadding>
+                    <ListItemButton component="a" href="#simple-list">
+                      {item.}
+                    </ListItemButton>
+                  </ListItem>
+                </List>
+              </nav> */}
+            </>
+          ))}
         </Box>
       </Modal>
     </div>
