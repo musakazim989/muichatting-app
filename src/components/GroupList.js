@@ -40,6 +40,7 @@ const GroupList = () => {
   const [groupTagline, setGroupTagline] = useState("")
   const [adminGroupInfo, setAdminGroupInfo] = useState([])
   const [check, setCheck] = useState(false)
+  const [groupMemberList, setGroupMemberList] = useState("")
 
   let handleModaImg = () => {
     setOpenImg(true)
@@ -66,10 +67,22 @@ const GroupList = () => {
           groupArr.push(groupinfo)
         }
       })
-
       setAdminGroupInfo(groupArr)
     })
   }, [check])
+
+  useEffect(() => {
+    const groupRef = dbref(db, "groupmembers")
+    onValue(groupRef, (snapshot) => {
+      let groupmemberArr = []
+      snapshot.forEach((item) => {
+        if (auth.currentUser.uid == item.val().groupid) {
+          groupmemberArr.push(item.val().groupid)
+        }
+      })
+      setGroupMemberList(groupmemberArr)
+    })
+  }, [])
 
   let handleCreateGroup = () => {
     setLoaiding(true)
@@ -133,21 +146,28 @@ const GroupList = () => {
                   <h4>{item.groupname}</h4>
                   <h5>{item.grouptagline}</h5>
                 </div>
-                <div className="button">
-                  <button
-                    onClick={() =>
-                      handleGroupJoin(
-                        item.adminid,
-                        item.key,
-                        item.groupname,
-                        item.grouptagline
-                      )
-                    }
-                  >
-                    Join
-                  </button>
-                </div>
+                {groupMemberList.indexOf(item.key) != -1 ? (
+                  <div className="button">
+                    <button
+                      onClick={() =>
+                        handleGroupJoin(
+                          item.adminid,
+                          item.key,
+                          item.groupname,
+                          item.grouptagline
+                        )
+                      }
+                    >
+                      Join
+                    </button>
+                  </div>
+                ) : (
+                  <div className="button">
+                    <button>Joined</button>
+                  </div>
+                )}
               </div>
+
               <div className="divider"></div>
             </>
           )

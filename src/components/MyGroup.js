@@ -10,7 +10,15 @@ import {
   ListItemText,
   Divider,
 } from "@mui/material"
-import { getDatabase, ref, onValue, remove, set, push } from "firebase/database"
+import {
+  getDatabase,
+  ref,
+  onValue,
+  remove,
+  set,
+  push,
+  update,
+} from "firebase/database"
 import { getAuth, updateProfile } from "firebase/auth"
 
 const MyGroup = () => {
@@ -19,6 +27,7 @@ const MyGroup = () => {
   const [adminGroupInfo, setAdminGroupInfo] = useState([])
   const [groupInfo, setGroupInfo] = useState([])
   const [open, setOpen] = useState(false)
+  const [groupMemberList, setGroupMemberList] = useState("")
 
   useEffect(() => {
     const db = getDatabase()
@@ -69,6 +78,27 @@ const MyGroup = () => {
     })
   }
 
+  useEffect(() => {
+    const groupRef = ref(db, "groupmembers")
+    onValue(groupRef, (snapshot) => {
+      let grouprefarr = []
+      snapshot.forEach((item) => {
+        {
+          let groupinfo = {
+            adminid: item.val().adminid,
+            userid: item.val().userid,
+            username: item.val().username,
+            groupid: item.val().groupid,
+            // userprofile: item.val().userprofile,
+            key: item.key,
+          }
+          grouprefarr.push(groupinfo)
+        }
+      })
+      setGroupMemberList(grouprefarr)
+    })
+  }, [])
+
   let handleGroupApprove = (item) => {
     console.log(item)
     const db = getDatabase()
@@ -79,10 +109,16 @@ const MyGroup = () => {
       groupid: item.groupid,
       // userprofile: item.userprofile,
       key: item.key,
-    }).then(() => {
-      remove(ref(db, "groupjoinrequest/" + item.key))
-      setOpen(false)
     })
+      // .then(() => {
+      //   update(ref(db, "groupmembers/" + item.userid), {
+      //     groups: [item.groupid],
+      //   })
+      // })
+      .then(() => {
+        remove(ref(db, "groupjoinrequest/" + item.key))
+        setOpen(false)
+      })
   }
 
   let handleGroupDecline = (item) => {
