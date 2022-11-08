@@ -58,15 +58,6 @@ const JoinGroupList = () => {
       groupid: item.key,
       groupadminid: item.adminid,
     }
-
-    // if (item.receiverid == auth.currentUser.uid) {
-    //   userinfo.id = item.senderid
-    //   userinfo.name = item.sendername
-    // } else {
-    //   userinfo.id = item.receiverid
-    //   userinfo.name = item.receivername
-    // }
-
     dispatch(activeChat(userinfo))
   }
 

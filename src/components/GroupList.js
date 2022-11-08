@@ -14,18 +14,6 @@ import "cropperjs/dist/cropper.css"
 import { Modal, Box, Typography, TextField, Alert } from "@mui/material"
 import { AiOutlineCamera } from "react-icons/ai"
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-}
-
 const GroupList = () => {
   const auth = getAuth()
   const storage = getStorage()
@@ -40,7 +28,7 @@ const GroupList = () => {
   const [groupTagline, setGroupTagline] = useState("")
   const [adminGroupInfo, setAdminGroupInfo] = useState([])
   const [check, setCheck] = useState(false)
-  const [groupMemberList, setGroupMemberList] = useState("")
+  const [groupMemberList, setGroupMemberList] = useState([])
 
   let handleModaImg = () => {
     setOpenImg(true)
@@ -102,7 +90,7 @@ const GroupList = () => {
   }
 
   let handleGroupJoin = (id, gid, gn, gt) => {
-    set(push(dbref(db, "groupjoinrequest/")), {
+    set(push(dbref(db, "groupjoinrequest")), {
       adminid: id,
       groupid: gid,
       groupname: gn,
@@ -112,7 +100,7 @@ const GroupList = () => {
       userprofileimage: auth.currentUser.photoURL,
     })
 
-    set(push(dbref(db, "notifications/")), {
+    set(push(dbref(db, "notifications")), {
       adminid: id,
       groupid: gid,
       groupname: gn,
@@ -146,7 +134,7 @@ const GroupList = () => {
                   <h4>{item.groupname}</h4>
                   <h5>{item.grouptagline}</h5>
                 </div>
-                {groupMemberList.indexOf(item.key) != -1 ? (
+                {groupMemberList.indexOf(item.key) == -1 && (
                   <div className="button">
                     <button
                       onClick={() =>
@@ -160,10 +148,6 @@ const GroupList = () => {
                     >
                       Join
                     </button>
-                  </div>
-                ) : (
-                  <div className="button">
-                    <button>Joined</button>
                   </div>
                 )}
               </div>
@@ -216,3 +200,15 @@ const GroupList = () => {
 }
 
 export default GroupList
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+}
