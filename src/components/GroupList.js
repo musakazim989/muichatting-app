@@ -64,7 +64,8 @@ const GroupList = () => {
     onValue(groupRef, (snapshot) => {
       let groupmemberArr = []
       snapshot.forEach((item) => {
-        if (auth.currentUser.uid == item.val().groupid) {
+        console.log(item.val())
+        if (item.val().groupid == auth.currentUser.uid) {
           groupmemberArr.push(item.val().groupid)
         }
       })
@@ -111,6 +112,7 @@ const GroupList = () => {
     })
   }
 
+  console.log("gog", groupMemberList)
   return (
     <div className="grouplist">
       <h2>
@@ -136,6 +138,7 @@ const GroupList = () => {
                 </div>
                 {groupMemberList.indexOf(item.key) == -1 && (
                   <div className="button">
+                    <h1>{item.key}</h1>
                     <button
                       onClick={() =>
                         handleGroupJoin(
