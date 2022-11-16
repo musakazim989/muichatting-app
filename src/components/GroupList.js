@@ -30,6 +30,8 @@ const GroupList = () => {
   const [check, setCheck] = useState(false)
   const [groupMemberList, setGroupMemberList] = useState([])
 
+  console.log("first", groupMemberList)
+
   let handleModaImg = () => {
     setOpenImg(true)
   }
@@ -64,10 +66,14 @@ const GroupList = () => {
     onValue(groupRef, (snapshot) => {
       let groupmemberArr = []
       snapshot.forEach((item) => {
-        console.log(item.val())
-        if (item.val().groupid == auth.currentUser.uid) {
-          groupmemberArr.push(item.val().groupid)
+        let groupinfo = {
+          adminid: item.val().adminid,
+          adminname: item.val().adminname,
+          groupname: item.val().groupname,
+          grouptagline: item.val().grouptagline,
+          key: item.key,
         }
+        groupmemberArr.push(groupinfo)
       })
       setGroupMemberList(groupmemberArr)
     })
@@ -112,7 +118,6 @@ const GroupList = () => {
     })
   }
 
-  console.log("gog", groupMemberList)
   return (
     <div className="grouplist">
       <h2>
@@ -138,7 +143,6 @@ const GroupList = () => {
                 </div>
                 {groupMemberList.indexOf(item.key) == -1 && (
                   <div className="button">
-                    <h1>{item.key}</h1>
                     <button
                       onClick={() =>
                         handleGroupJoin(
@@ -154,7 +158,6 @@ const GroupList = () => {
                   </div>
                 )}
               </div>
-
               <div className="divider"></div>
             </>
           )
