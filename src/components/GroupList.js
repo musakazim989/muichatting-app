@@ -30,8 +30,6 @@ const GroupList = () => {
   const [check, setCheck] = useState(false)
   const [groupMemberList, setGroupMemberList] = useState([])
 
-  console.log("first", groupMemberList)
-
   let handleModaImg = () => {
     setOpenImg(true)
   }
@@ -66,14 +64,18 @@ const GroupList = () => {
     onValue(groupRef, (snapshot) => {
       let groupmemberArr = []
       snapshot.forEach((item) => {
-        let groupinfo = {
-          adminid: item.val().adminid,
-          adminname: item.val().adminname,
-          groupname: item.val().groupname,
-          grouptagline: item.val().grouptagline,
-          key: item.key,
+        // let groupinfo = {
+        //   adminid: item.val().adminid,
+        //   adminname: item.val().adminname,
+        //   groupname: item.val().groupname,
+        //   grouptagline: item.val().grouptagline,
+        //   key: item.key,
+        // }
+        // groupmemberArr.push(groupinfo)
+
+        if (item.val().userid == auth.currentUser.uid) {
+          groupmemberArr.push(item.val().groupid)
         }
-        groupmemberArr.push(groupinfo)
       })
       setGroupMemberList(groupmemberArr)
     })
